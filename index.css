@@ -27,6 +27,8 @@ a:link, a:visited{
 #email {
   text-align: center;
   padding: 10px 25px 0px 25px;
+  color: white;
+  text-decoration: none;
 }
 
 #email-link, #email-link:link, #email-link:visited {
