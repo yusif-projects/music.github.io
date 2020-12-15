@@ -6,7 +6,7 @@ body {
 
 #intro {
 	text-align: center;
-	padding: 50px 0px 0px 0px;
+	padding: 50px 25px 0px 25px;
 }
 
 .social-icon {
@@ -16,6 +16,7 @@ body {
 
 #social-icons {
 	text-align: center;
+	padding: 0px 25px 0px 25px;
 }
 
 a:link, a:visited{
@@ -25,12 +26,17 @@ a:link, a:visited{
 
 #email {
   text-align: center;
-  color: white;
-  padding: 10px 10px 10px 10px;
+  padding: 10px 25px 0px 25px;
+}
+
+#email-link, #email-link:link, #email-link:visited {
+	text-decoration: none;
+	color: white;
 }
 
 footer {
 	text-align: center;
+	padding: 0px 25px 0px 25px;
 }
 
 #orange-o {
