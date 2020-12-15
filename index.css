@@ -1,11 +1,12 @@
 body {
 	background-color: #000000;
-	font-family: 'Baloo 2', cursive;
+	font-family: 'Special Elite', cursive;
 	color: #FFFFFF;
 }
 
 #intro {
 	text-align: center;
+	padding: 50px 0px 0px 0px;
 }
 
 .social-icon {
@@ -15,7 +16,6 @@ body {
 
 #social-icons {
 	text-align: center;
-	padding: 15px 15px 15px 15px;
 }
 
 a:link, a:visited{
@@ -31,4 +31,8 @@ a:link, a:visited{
 
 footer {
 	text-align: center;
+}
+
+#orange-o {
+	color: #EB7B22;
 }
