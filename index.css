@@ -5,8 +5,8 @@ body {
 }
 
 #logo {
-	width: 40%;
-	margin: 50px 30% 10px 30%;
+	margin: 50px 0 0 50%;
+	transform: translate(-50%, 0);
 }
 
 #intro {
@@ -16,12 +16,12 @@ body {
 
 .social-icon {
 	font-size: 75px;
-	margin: 10px 25px 10px 0px;
+	margin: 15px 25px 15px 0px;
 }
 
 #social-icons {
 	text-align: center;
-	padding: 25px 25px 0px 25px;
+	padding: 0px 25px 0px 25px;
 }
 
 a:link, a:visited{
