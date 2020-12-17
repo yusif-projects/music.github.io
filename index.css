@@ -11,17 +11,17 @@ body {
 
 #intro {
 	text-align: center;
-	padding: 40px 25px 0px 25px;
+	padding: 40px 25px 0px 0px;
 }
 
 .social-icon {
 	font-size: 75px;
-	margin: 15px 15px 15px 15px;
+	margin: 10px 25px 10px 0px;
 }
 
 #social-icons {
 	text-align: center;
-	padding: 0px 25px 0px 25px;
+	padding: 25px 25px 0px 25px;
 }
 
 a:link, a:visited{
@@ -31,7 +31,7 @@ a:link, a:visited{
 
 #email {
   text-align: center;
-  padding: 10px 25px 0px 25px;
+  padding: 25px 25px 0px 25px;
   color: white;
   text-decoration: none;
 }
