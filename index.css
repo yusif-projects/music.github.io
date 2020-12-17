@@ -2,26 +2,23 @@ body {
 	background-color: #000000;
 	font-family: 'Special Elite', cursive;
 	color: #FFFFFF;
+	margin: 0;
+	padding: 0;
 }
 
-#logo {
-	margin: 50px 0 0 50%;
-	transform: translate(-50%, 0);
-}
-
-#intro {
+.intro {
 	text-align: center;
-	padding: 40px 25px 0px 0px;
+	padding: 0 25px;
 }
 
 .social-icon {
 	font-size: 75px;
-	margin: 15px 25px 15px 0px;
+	margin: 15px 10px 15px 10px;
 }
 
 #social-icons {
 	text-align: center;
-	padding: 0px 25px 0px 25px;
+	padding-bottom: 25px;
 }
 
 a:link, a:visited{
@@ -43,9 +40,18 @@ a:link, a:visited{
 
 footer {
 	text-align: center;
-	padding: 0px 25px 15px 25px;
+	padding-bottom: 15px;
 }
 
-#orange-o {
+.orange-o {
 	color: #FB8424;
+}
+
+.soundcloud {
+	margin: 5px 0;
+}
+
+.filler-block {
+	background-color: red;
+	height: 100px;
 }
