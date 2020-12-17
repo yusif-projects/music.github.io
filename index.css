@@ -4,9 +4,14 @@ body {
 	color: #FFFFFF;
 }
 
+#logo {
+	width: 40%;
+	margin: 50px 30% 10px 30%;
+}
+
 #intro {
 	text-align: center;
-	padding: 50px 25px 0px 25px;
+	padding: 40px 25px 0px 25px;
 }
 
 .social-icon {
@@ -38,9 +43,9 @@ a:link, a:visited{
 
 footer {
 	text-align: center;
-	padding: 0px 25px 0px 25px;
+	padding: 0px 25px 15px 25px;
 }
 
 #orange-o {
-	color: #EB7B22;
+	color: #FB8424;
 }
