@@ -1,6 +1,6 @@
 body {
 	background-color: #000000;
-	font-family: 'American Typewriter', cursive;
+	font-family: 'American Typewriter';
 	color: #FFFFFF;
 	margin: 0;
 	padding: 0;
@@ -31,11 +31,11 @@ a:link, a:visited{
 }
 
 #email {
-  text-align: center;
-  padding: 25px 25px 0px 25px;
-  color: white;
-  text-decoration: none;
-  margin: 0;
+	text-align: center;
+	padding: 25px 25px 0px 25px;
+	color: white;
+	text-decoration: none;
+	margin: 0;
 }
 
 #email-link, #email-link:link, #email-link:visited {
@@ -57,4 +57,38 @@ footer {
 	background-color: red;
 	height: 100px;
 	margin: 0;
+}
+
+.swiper {
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 0px;
+}
+
+.swiper-slide {
+	background-position: center;
+	background-size: cover;
+	width: 300px;
+	height: 350px;
+}
+
+.swiper-slide img {
+	display: block;
+	width: 100%;
+}
+
+.album-title {
+	text-align: center;
+	height: 50px;
+	margin: 13px 0px 0px 0px;
+	padding: 0px;
+	text-decoration: none;
+}
+
+.lyrics {
+	color: #888888;
+	line-height: 25px;
+	font-size: 20px;
+	padding: 0px;
+	margin: 0px;
 }
