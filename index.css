@@ -25,6 +25,13 @@ body {
 	margin: 0;
 }
 
+#social-icons-2 {
+  text-align: center;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin: 0;
+}
+
 a:link, a:visited{
 	text-decoration: none;
 	background-color: transparent;
