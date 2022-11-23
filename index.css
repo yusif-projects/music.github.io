@@ -56,10 +56,6 @@ footer {
 	margin: 0;
 }
 
-.orange-o {
-	color: #FB8424;
-}
-
 .filler-block {
 	background-color: red;
 	height: 100px;
@@ -93,7 +89,7 @@ footer {
 }
 
 .lyrics {
-	color: #888888;
+	color: #AAAAAA;
 	line-height: 25px;
 	font-size: 20px;
 	padding: 0px;
