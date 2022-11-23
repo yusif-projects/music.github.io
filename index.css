@@ -37,6 +37,10 @@ a:link, a:visited{
 	background-color: transparent;
 }
 
+#album-cover {
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
 #email {
 	text-align: center;
 	padding: 25px 25px 0px 25px;
