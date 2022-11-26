@@ -8,13 +8,7 @@ for(let i=0; i<logo.length; i++){
 
 // ANIMATED GRADIENT
 
-var colors = new Array(
-  [24,0,36],
-  [46,2,76],
-  [1,11,36],
-  [16,15,73],
-[40,14,104],
-[20,7,51]);
+var colors = new Array([9,7,31],[29,7,63],[30,11,95],[26,24,94]);
 
 var step = 0;
 //color table indices for:
@@ -25,7 +19,7 @@ var step = 0;
 var colorIndices = [0,1,2,3];
 
 //transition speed
-var gradientSpeed = 1/200;
+var gradientSpeed = 1/500;
 
 function updateGradient()
 {
@@ -80,7 +74,7 @@ const swiper = new Swiper(".mySwiper", {
               stretch: -25,
               depth: 50,
               modifier: 1,
-              slideShadows: true,
+              slideShadows: false,
             },
             pagination: {
               el: ".swiper-pagination",
