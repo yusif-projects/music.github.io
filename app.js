@@ -4,6 +4,8 @@ for(let i=0; i<logo.length; i++){
   console.log(`Letter ${i} is ${logo[i].getTotalLength()}`);
 }
 
+
+
 // ANIMATED GRADIENT
 
 var colors = new Array(
@@ -66,3 +68,21 @@ var color2 = "rgb("+r2+","+g2+","+b2+")";
 }
 
 setInterval(updateGradient,10);
+
+const swiper = new Swiper(".mySwiper", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            loop: true,
+            coverflowEffect: {
+              rotate: 25,
+              stretch: -25,
+              depth: 50,
+              modifier: 1,
+              slideShadows: true,
+            },
+            pagination: {
+              el: ".swiper-pagination",
+            },
+          });
