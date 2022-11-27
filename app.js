@@ -8,7 +8,7 @@ for(let i=0; i<logo.length; i++){
 
 // ANIMATED GRADIENT
 
-const colors = new Array([64, 28, 79],[29, 24, 84],[0, 0, 0],[7, 20, 79],[44, 5, 5]);
+const colors = new Array([64, 28, 79],[29, 24, 84],[0, 0, 0],[44, 5, 5]);
 
 var step = 0;
 var colorIndices = [0,1,2,3];
