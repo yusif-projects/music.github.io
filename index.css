@@ -39,6 +39,7 @@ body {
 	padding-bottom: 0px;
 	padding-top: 30px;
 	margin: 0;
+	z-index: 100;
 }
 
 #social-icons-2 {
