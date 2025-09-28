@@ -1,12 +1,12 @@
 // ========================= main.js =========================
 // Tiny helpers
-const $  = (sel, ctx = document) => ctx.querySelector(sel);
+const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const el = (tag, opts = {}) => Object.assign(document.createElement(tag), opts);
 
 // Safe storage (won't throw in Safari Private Mode)
 const storage = {
-  get(k){ try { return localStorage.getItem(k); } catch { return null; } },
-  set(k,v){ try { localStorage.setItem(k,v); } catch { /* ignore */ } }
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch { /* ignore */ } }
 };
 
 // Safe text/html setters (older Safari friendly)
@@ -31,7 +31,7 @@ function markActiveFlag() {
   en?.classList.toggle('active', LANG === 'en');
   az?.classList.toggle('active', LANG === 'az');
 }
-function setLang(lang, data, persist=true) {
+function setLang(lang, data, persist = true) {
   LANG = (lang === 'az') ? 'az' : 'en';
   if (persist) storage.set('lang', LANG);
   document.documentElement.lang = LANG;
@@ -91,28 +91,28 @@ function applyStaticI18n(/*data*/) {
   const d = document;
   // Navbar labels
   setText(d.querySelector('a[href="#discography"]'), t('nav_discography'));
-  setText(d.querySelector('a[href="#about"]'),       t('nav_about'));
-  setText(d.querySelector('a[href="#contact"]'),     t('nav_contact'));
+  setText(d.querySelector('a[href="#about"]'), t('nav_about'));
+  setText(d.querySelector('a[href="#contact"]'), t('nav_contact'));
 
   // Hero text + CTAs
-  setText($('#heroBadge'),    t('hero_badge'));
+  setText($('#heroBadge'), t('hero_badge'));
   setText($('#heroHeadline'), t('hero_headline'));
-  setText($('#heroSub'),      t('hero_sub'));
+  setText($('#heroSub'), t('hero_sub'));
 
   const listenBtn = d.querySelector('a[href="#discography"].btn');
   if (listenBtn) setHTML(listenBtn, `<i class="bi bi-play-fill me-1"></i> ${t('cta_listen')}`);
 
-  const watchBtn  = d.querySelector('a[href="#youtube"].btn');
-  if (watchBtn)  setHTML(watchBtn,  `<i class="bi bi-youtube me-1"></i> ${t('cta_watch')}`);
+  const watchBtn = d.querySelector('a[href="#youtube"].btn');
+  if (watchBtn) setHTML(watchBtn, `<i class="bi bi-youtube me-1"></i> ${t('cta_watch')}`);
 
   // Section titles/links
   setText(d.querySelector('#discography .section-title'), t('section_discography'));
-  setText(d.querySelector('#youtube .section-title'),     t('section_youtube'));
-  setText(d.querySelector('#instagram .section-title'),   t('section_instagram'));
-  setText($('#youtubeChannelLink'),   t('see_all'));
+  setText(d.querySelector('#youtube .section-title'), t('section_youtube'));
+  setText(d.querySelector('#instagram .section-title'), t('section_instagram'));
+  setText($('#youtubeChannelLink'), t('see_all'));
   setText($('#instagramProfileLink'), t('open_profile'));
-  setText(d.querySelector('#about .section-title'),       t('section_about'));
-  setText(d.querySelector('#contact .section-title'),     t('contact'));
+  setText(d.querySelector('#about .section-title'), t('section_about'));
+  setText(d.querySelector('#contact .section-title'), t('contact'));
 
   // Contact card titles/subtitle
   const contactCardTitle = $('#contact .card-title');
@@ -202,12 +202,12 @@ function renderShows(data) {
                 <div class="text-muted small">${s.venue}</div>
               </div>
               <div class="text-end">
-                <div class="fw-semibold">${d.toLocaleDateString(LANG === 'az' ? 'az' : undefined, { month:'short', day:'2-digit' })}</div>
+                <div class="fw-semibold">${d.toLocaleDateString(LANG === 'az' ? 'az' : undefined, { month: 'short', day: '2-digit' })}</div>
                 <div class="text-muted small">${d.getFullYear()}</div>
               </div>
             </div>
             <div class="mt-3 d-flex gap-2 align-items-center mt-auto">
-              <span class="chip ${s.status==='On Sale' ? 'badge-soft' : ''}">${s.status}</span>
+              <span class="chip ${s.status === 'On Sale' ? 'badge-soft' : ''}">${s.status}</span>
               ${s.ticket_url ? `<a class="btn btn-accent btn-sm ms-auto" href="${s.ticket_url}">${t('cta_listen')}</a>` : ''}
             </div>
           </div>
@@ -357,10 +357,17 @@ function renderAboutCarousel(data) {
     const data = loadData();
     I18N = data.i18n || {};
 
-    // Determine language: URL > storage > EN
-    const urlLang = getLangFromUrl();
-    const stored  = storage.get('lang');
+    // Determine language: URL > stored > EN (and persist URL choice)
+    const urlLang = getLangFromUrl();              // 'en' | 'az' | null
+    const stored = storage.get('lang');           // 'en' | 'az' | null
+
     LANG = urlLang || stored || 'en';
+
+    // If a URL param was provided, store it as the new preference
+    if (urlLang && urlLang !== stored) {
+      storage.set('lang', urlLang);
+    }
+
     document.documentElement.lang = LANG;
 
     // Wire flags (works for link or button variants)
@@ -371,6 +378,8 @@ function renderAboutCarousel(data) {
     // If you kept old button IDs, support them too (no page reload)
     $('#langBtnEN')?.addEventListener('click', (e) => { e.preventDefault(); setLang('en', data); });
     $('#langBtnAZ')?.addEventListener('click', (e) => { e.preventDefault(); setLang('az', data); });
+
+
 
     // Initial render
     markActiveFlag();
