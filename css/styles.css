@@ -1,0 +1,24 @@
+:root{
+	--bg:#0f1115; --card:#151923; --muted:#9aa4b2; --acc:#6ea8fe; --ring:32 100% 50%;
+  }
+  
+  html,body{background:var(--bg); color:#e5e7eb}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;}
+  .navbar{background:rgba(21,25,35,.6); backdrop-filter:blur(8px)}
+  .hero{min-height:70vh; display:grid; place-items:center; text-align:center;
+	background:radial-gradient(1000px 600px at 80% -10%, rgba(110,168,254,.15), transparent),
+			   radial-gradient(800px 500px at 0% 110%, rgba(110,168,254,.10), transparent)}
+  .badge-soft{background:rgba(110,168,254,.12); color:#cfe2ff; border:1px solid rgba(110,168,254,.25)}
+  .card{background:var(--card); border:1px solid rgba(255,255,255,.06)}
+  .card:hover{border-color:rgba(110,168,254,.35)}
+  .section-title{letter-spacing:.6px}
+  .btn-accent{--bs-btn-bg:var(--acc); --bs-btn-border-color:var(--acc); --bs-btn-hover-bg:#5a91e1; --bs-btn-hover-border-color:#5a91e1}
+  .text-muted{color:var(--muted)!important}
+  .divider{height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent)}
+  .chip{border:1px solid rgba(255,255,255,.1); border-radius:999px; padding:.25rem .6rem; color:#cbd5e1}
+  .link-muted{color:#cbd5e1; text-decoration:none}
+  .link-muted:hover{color:#fff}
+  .avatar{width:48px; height:48px; border-radius:50%; object-fit:cover; border:1px solid rgba(255,255,255,.2)}
+  .footer{border-top:1px solid rgba(255,255,255,.08)}
+  .ring{box-shadow:0 0 0 .25rem hsla(var(--ring)/.08)}
+  audio{width:100%}
