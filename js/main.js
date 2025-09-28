@@ -59,11 +59,18 @@ function renderTracks(data) {
 
   const allTracks = data.releases.flatMap(r => (r.tracks || []).map(t => ({ ...t, release: r })));
   wrap.innerHTML = '';
+
   allTracks.slice(0, 6).forEach(({ title, duration, release }) => {
     const col = el('div', { className: 'col-md-6 col-lg-4' });
+
     const ytBtn = release.youtube_video_id
-      ? `<a class="btn btn-accent btn-sm mt-2" href="https://www.youtube.com/watch?v=${release.youtube_video_id}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>Watch on YouTube</a>`
+      ? `<a class="btn btn-accent btn-sm mt-2 me-2" href="https://www.youtube.com/watch?v=${release.youtube_video_id}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>YouTube</a>`
       : '';
+
+    const scBtn = release.soundcloud_url
+      ? `<a class="btn btn-outline-light btn-sm mt-2" href="${release.soundcloud_url}" target="_blank" rel="noreferrer"><i class="bi bi-soundwave me-1"></i>SoundCloud</a>`
+      : '';
+
     col.innerHTML = `
       <div class="card h-100">
         <img src="${release.cover}" class="card-img-top" alt="${release.title} cover" loading="lazy"/>
@@ -74,7 +81,10 @@ function renderTracks(data) {
           </div>
           <h5 class="card-title mb-1">${title}</h5>
           <div class="text-muted small mb-2">${duration || ''}</div>
-          <div class="mt-auto">${ytBtn}</div>
+          <div class="mt-auto d-flex flex-wrap gap-2">
+            ${ytBtn}
+            ${scBtn}
+          </div>
         </div>
       </div>`;
     wrap.appendChild(col);
@@ -124,6 +134,14 @@ function renderReleases(data) {
 
   wrap.innerHTML = '';
   data.releases.forEach(r => {
+    const ytBtn = r.youtube_video_id
+      ? `<a class="btn btn-accent btn-sm me-2" href="https://www.youtube.com/watch?v=${r.youtube_video_id}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>YouTube</a>`
+      : '';
+
+    const scBtn = r.soundcloud_url
+      ? `<a class="btn btn-outline-light btn-sm" href="${r.soundcloud_url}" target="_blank" rel="noreferrer"><i class="bi bi-soundwave me-1"></i>SoundCloud</a>`
+      : '';
+
     const col = el('div', { className: 'col-md-6 col-lg-4' });
     col.innerHTML = `
       <div class="card h-100">
@@ -133,11 +151,9 @@ function renderReleases(data) {
             <h5 class="card-title mb-0">${r.title}</h5>
             <span class="chip">${r.type} • ${r.year}</span>
           </div>
-          <ul class="list-unstyled small mb-3">
-            ${(r.tracks || []).map(t => `<li>• ${t.title} <span class="text-muted">${t.duration || ''}</span></li>`).join('')}
-          </ul>
-          <div class="mt-auto">
-            ${r.youtube_video_id ? `<a class="btn btn-accent btn-sm" href="https://www.youtube.com/watch?v=${r.youtube_video_id}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>Watch on YouTube</a>` : ''}
+          <div class="mt-auto d-flex flex-wrap gap-2">
+            ${ytBtn}
+            ${scBtn}
           </div>
         </div>
       </div>`;
