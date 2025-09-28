@@ -1,0 +1,217 @@
+:root {
+  /* ---------------- Core tokens (HEX) ---------------- */
+--bg:       #0d0603;  /* almost black espresso */
+--bg-soft:  #140805;  /* deeper smoky walnut */
+--bg-deep:  #080403;  /* near-black kiln char */
+  --card: #2b160f;            /* roasted pecan */
+  --text: #f5e7d7;            /* parchment */
+  --muted: #d9c7b6;           /* warm sand */
+
+  --acc: #ff8c42;             /* ember orange */
+  --acc-600: #e6762f;         /* darker accent for hover */
+  --warm: #d96e22;            /* secondary warm hue */
+  --navbar-bg: #2b160f;       /* navbar backdrop base */
+
+  /* -------- alpha variants (8-digit HEX) -------- */
+  /* on-dark (subtle warm white) */
+  --on-dark-03: #FFEEE008;    /* ~3%  */
+  --on-dark-06: #FFEEE00F;    /* ~6%  */
+  --on-dark-08: #FFEEE014;    /* ~8%  */
+  --on-dark-10: #FFEEE01A;    /* 10%  */
+  --on-dark-12: #FFEEE01F;    /* 12%  */
+  --on-dark-15: #FFEEE026;    /* 15%  */
+  --on-dark-20: #FFEEE033;    /* 20%  */
+  --on-dark-35: #FFEEE059;    /* 35%  */
+  --on-dark-55: #FFEEE08C;    /* 55%  */
+
+  /* accent/warm alphas */
+  --acc-10: #FF8C421A;
+  --acc-14: #FF8C4224;
+  --acc-18: #FF8C422E;
+  --acc-35: #FF8C4259;
+
+  --warm-10: #D96E221A;
+  --warm-16: #D96E2229;
+
+  /* misc */
+  --navbar-bg-70: #2B160FB3;  /* 70% opacity */
+  --ring-10: #FF8C421A;       /* accent glow */
+  --ink-dark: #1f1009;        /* text on accent buttons */
+}
+
+/* ===================================================== */
+/* Base / Layout                                         */
+/* ===================================================== */
+
+html, body {
+  background:
+    radial-gradient(circle at top right, var(--acc-10), transparent 55%),
+    radial-gradient(circle at bottom left, var(--warm-16), transparent 60%),
+    linear-gradient(160deg, var(--bg), var(--bg-soft) 50%, var(--bg-deep));
+  color: var(--text);
+}
+
+body {
+  font-family: "Source Sans 3", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  letter-spacing: 0.3px;
+}
+
+/* ===================================================== */
+/* Navbar                                                */
+/* ===================================================== */
+
+.navbar {
+  background: var(--navbar-bg-70);
+  backdrop-filter: blur(8px);
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+  color: var(--text);
+}
+
+.navbar .nav-link:hover {
+  color: var(--text);
+}
+
+/* ===================================================== */
+/* Hero                                                  */
+/* ===================================================== */
+
+.hero {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background:
+    linear-gradient(135deg, var(--acc-18), var(--warm-10) 45%, #FFEEE00D 100%),
+    var(--bg-soft);
+}
+
+/* ===================================================== */
+/* Cards                                                 */
+/* ===================================================== */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--on-dark-08);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--on-dark-03), transparent 40%);
+  background-size: 2px 2px;
+  opacity: 0.6;
+  border-radius: inherit;
+}
+
+.card:hover {
+  border-color: var(--acc-35);
+}
+
+/* ===================================================== */
+/* Typography / Links                                    */
+/* ===================================================== */
+
+.text-muted {
+  color: var(--muted) !important;
+}
+
+/* Default card titles are LIGHT for readability */
+.card-title {
+  color: var(--text) !important;
+}
+
+/* Optional helper if you want an orange title somewhere */
+.title-accent {
+  color: var(--acc) !important;
+}
+
+.link-muted {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.link-muted:hover {
+  color: var(--text);
+}
+
+/* Force important UI texts to be light */
+.fw-semibold,
+#contactInfo,
+#contactInfo a,
+#latestReleaseMeta,
+#releases .card-title,
+#releases .list-unstyled li,
+#tracks  .card-title,
+#tracks  .list-unstyled li {
+  color: var(--text) !important;
+}
+
+/* ===================================================== */
+/* Buttons                                               */
+/* ===================================================== */
+
+.btn-accent {
+  --bs-btn-bg: var(--acc);
+  --bs-btn-border-color: var(--acc);
+  --bs-btn-hover-bg: var(--acc-600);
+  --bs-btn-hover-border-color: var(--acc-600);
+  --bs-btn-color: var(--ink-dark);
+}
+
+.btn-outline-light {
+  --bs-btn-color: var(--text);
+  --bs-btn-border-color: var(--on-dark-35);
+  --bs-btn-hover-bg: var(--on-dark-10);
+  --bs-btn-hover-border-color: var(--on-dark-55);
+}
+
+/* ===================================================== */
+/* Utilities                                             */
+/* ===================================================== */
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--on-dark-15), transparent);
+}
+
+.chip {
+  border: 1px solid var(--on-dark-12);
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+  color: var(--text);
+  background: var(--on-dark-03);
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--on-dark-20);
+}
+
+.footer {
+  border-top: 1px solid var(--on-dark-08);
+}
+
+.ring {
+  box-shadow: 0 0 0 0.25rem var(--ring-10);
+}
+
+a { color: var(--acc); }
+a:hover { color: var(--acc-600); }
+
+audio { width: 100%; }
