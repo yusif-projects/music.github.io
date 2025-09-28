@@ -131,7 +131,7 @@ function renderContactSocials(data) {
 }
 
 function renderYouTubeRecent(data) {
-  const ids = data.youtube_recent || [];
+  const ids = data.youtube_videos || [];
   const grid = $('#ytGrid');
   const channelUrl = data.artist.channels?.youtube_channel_url || '#';
   const link = $('#youtubeChannelLink');

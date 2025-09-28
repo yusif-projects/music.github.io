@@ -1,54 +1,70 @@
 :root{
+  /* Core brand tokens */
   --bg:#0e0b09;            /* espresso */
   --card:#1a1410;          /* dark walnut */
-  --muted:#d8c9bb;         /* warm sand */
   --text:#f3e9df;          /* parchment */
+  --muted:#d8c9bb;         /* warm sand */
+
   --acc:#e67e22;           /* burnt orange */
-  --acc-600:#cf6c1c;
+  --acc-600:#cf6c1c;       /* darker accent for hover */
+
+  /* Helper RGB tokens for alpha blending */
+  --on-dark-rgb:255 255 255;  /* use for subtle borders/overlays */
+  --acc-rgb:230 126 34;       /* same as --acc in rgb */
+  --warm-rgb:191 87 0;        /* secondary warm hue */
+  --navbar-bg-rgb:26 20 16;   /* navbar backdrop color (rgb) */
+
+  /* Misc visual tokens */
   --ring:27 85% 56%;
+  --ink-dark:#1a1410;       /* dark ink for buttons on orange */
 }
 
 html,body{background:var(--bg); color:var(--text)}
 body{font-family:"Source Sans 3", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;}
 h1,h2,h3,h4,h5,h6,.navbar-brand{font-family:"Playfair Display", Georgia, "Times New Roman", serif; letter-spacing:.3px}
-.navbar{background:rgba(26,20,16,.7); backdrop-filter:blur(8px)}
+.navbar{background:rgba(var(--navbar-bg-rgb), .7); backdrop-filter:blur(8px)}
 .navbar .navbar-brand, .navbar .nav-link{color:var(--text)}
-.navbar .nav-link:hover{color:#fff}
+.navbar .nav-link:hover{color:var(--text)}
 .hero{min-height:70vh; display:grid; place-items:center; text-align:center;
   background:
-    radial-gradient(1000px 600px at 80% -10%, rgba(230,126,34,.14), transparent),
-    radial-gradient(800px 500px at 0% 110%, rgba(191,87,0,.10), transparent)}
-.card{background:var(--card); border:1px solid rgba(255,255,255,.06)}
-.card{border-color:rgba(255,255,255,.08)}
+    radial-gradient(1000px 600px at 80% -10%, rgba(var(--acc-rgb), .14), transparent),
+    radial-gradient(800px 500px at 0% 110%, rgba(var(--warm-rgb), .10), transparent)}
+.card{background:var(--card); border:1px solid rgba(var(--on-dark-rgb), .06)}
+.card{border-color:rgba(var(--on-dark-rgb), .08)}
 .card{border-radius:10px}
 .card::after{
     content:"";
     position:absolute;
     inset:0;
     pointer-events:none;
-    background-image:radial-gradient(rgba(255,255,255,.03), transparent 40%);
+    background-image:radial-gradient(rgba(var(--on-dark-rgb), .03), transparent 40%);
     background-size: 2px 2px;
     opacity:.6;
     border-radius:inherit;
   }
 .card{position:relative; overflow:hidden}
-.card:hover{border-color:rgba(110,168,254,.35)}
+.card:hover{border-color:rgba(var(--acc-rgb), .35)}
 .section-title{letter-spacing:.6px}
 .btn-accent{
   --bs-btn-bg:var(--acc);
   --bs-btn-border-color:var(--acc);
   --bs-btn-hover-bg:var(--acc-600);
   --bs-btn-hover-border-color:var(--acc-600);
-  --bs-btn-color:#1a1410;
+  --bs-btn-color:var(--ink-dark);
 }
-.btn-outline-light{--bs-btn-color:var(--text); --bs-btn-border-color:rgba(255,255,255,.35); --bs-btn-hover-bg:rgba(255,255,255,.1); --bs-btn-hover-border-color:rgba(255,255,255,.55)}
+.btn-outline-light{
+  --bs-btn-color:var(--text);
+  --bs-btn-border-color:rgba(var(--on-dark-rgb), .35);
+  --bs-btn-hover-bg:rgba(var(--on-dark-rgb), .10);
+  --bs-btn-hover-border-color:rgba(var(--on-dark-rgb), .55);
+}
 .text-muted{color:var(--muted)!important}
-.divider{height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent)}
-.chip{border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:.25rem .6rem; color:var(--text); background:rgba(255,255,255,.03)}
+.divider{height:1px; background:linear-gradient(90deg, transparent, rgba(var(--on-dark-rgb), .15), transparent)}
+.chip{border:1px solid rgba(var(--on-dark-rgb), .12); border-radius:999px; padding:.25rem .6rem; color:var(--text); background:rgba(var(--on-dark-rgb), .03)}
 .link-muted{color:var(--muted); text-decoration:none}
-.link-muted:hover{color:#fff}
-.avatar{width:48px; height:48px; border-radius:50%; object-fit:cover; border:1px solid rgba(255,255,255,.2)}
-.footer{border-top:1px solid rgba(255,255,255,.08)}
+.link-muted:hover{color:var(--text)}
+.avatar{width:48px; height:48px; border-radius:50%; object-fit:cover; border:1px solid rgba(var(--on-dark-rgb), .2)}
+.footer{border-top:1px solid rgba(var(--on-dark-rgb), .08)}
 .ring{box-shadow:0 0 0 .25rem hsla(var(--ring)/.10)}
 audio{width:100%}
 a{color:var(--acc)}
