@@ -35,6 +35,7 @@ function renderHero(data) {
 
 function renderTracks(data) {
   const wrap = $('#tracks');
+  if (!wrap) return;
   const allTracks = data.releases.flatMap(r => (r.tracks || []).map(t => ({ ...t, release: r })));
   allTracks.slice(0, 6).forEach(({ title, duration, release }) => {
     const col = el('div', { className: 'col-md-6 col-lg-4' });
@@ -61,6 +62,7 @@ function renderTracks(data) {
 function renderShows(data) {
   const wrap = $('#showsList');
   const noShows = $('#noShows');
+  if (!wrap || !noShows) return;
   if (data.shows?.length) {
     noShows.style.display = 'none';
     data.shows.forEach(s => {
