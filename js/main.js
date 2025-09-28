@@ -1,31 +1,44 @@
-// --- tiny helpers ---
-const $ = (sel, ctx = document) => ctx.querySelector(sel);
+// ========================= main.js =========================
+// Tiny helpers
+const $  = (sel, ctx = document) => ctx.querySelector(sel);
 const el = (tag, opts = {}) => Object.assign(document.createElement(tag), opts);
 
-// Safe storage (Safari Private Mode tolerant)
+// Safe storage (won't throw in Safari Private Mode)
 const storage = {
-  get(k) { try { return window.localStorage.getItem(k); } catch { return null; } },
-  set(k, v) { try { window.localStorage.setItem(k, v); } catch { /* ignore */ } }
+  get(k){ try { return localStorage.getItem(k); } catch { return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch { /* ignore */ } }
 };
 
-// Safe setters (avoid replaceChildren for older Safari)
+// Safe text/html setters (older Safari friendly)
 const setText = (node, text) => { if (node) node.textContent = text ?? ''; };
 const setHTML = (node, html) => { if (node) node.innerHTML = html ?? ''; };
 
-// i18n
+// i18n state
 let LANG = 'en';
 let I18N = {};
 const t = (key) => (I18N[LANG] && I18N[LANG][key]) || (I18N.en && I18N.en[key]) || '';
 
-function setLang(lang, data) {
-  LANG = (lang === 'az') ? 'az' : 'en'; // default EN
-  storage.set('lang', LANG);
-  updateLangButtonsUI();
-
-  // Update static labels and About copy
+// ---- Language routing (URL-first, storage as fallback) ----
+function getLangFromUrl() {
+  const u = new URL(window.location.href);
+  const q = (u.searchParams.get('lang') || '').toLowerCase();
+  if (q === 'en' || q === 'az') return q;
+  return null;
+}
+function markActiveFlag() {
+  const en = $('#langLinkEN') || $('#langBtnEN');
+  const az = $('#langLinkAZ') || $('#langBtnAZ');
+  en?.classList.toggle('active', LANG === 'en');
+  az?.classList.toggle('active', LANG === 'az');
+}
+function setLang(lang, data, persist=true) {
+  LANG = (lang === 'az') ? 'az' : 'en';
+  if (persist) storage.set('lang', LANG);
+  document.documentElement.lang = LANG;
+  markActiveFlag();
+  // Static labels + About copy
   applyStaticI18n(data);
   renderCommon(data);
-
   // Rebuild dynamic sections
   clearRendered();
   renderHero(data);
@@ -38,31 +51,29 @@ function setLang(lang, data) {
   renderAboutCarousel(data);
 }
 
+// ---- Data loading / clearing ----
 function loadData() {
   const tag = document.getElementById('site-data');
   if (!tag || !tag.textContent) throw new Error('site-data script tag missing or empty');
   return JSON.parse(tag.textContent);
 }
-
 function clearRendered() {
-  // wipe containers that are rebuilt
   ['#tracks', '#showsList', '#releases', '#ytGrid', '#igGrid'].forEach(sel => {
     const node = $(sel);
     if (node) node.innerHTML = '';
   });
 }
 
-// ---------- RENDERERS ----------
+// ======================== RENDERERS ========================
 function renderCommon(data) {
   document.title = `${data.artist.name} — Official Site`;
+  setText($('#brandName'), data.artist.name);
+  setText($('#footerArtist'), data.artist.name);
+  setText($('#year'), new Date().getFullYear());
 
-  const brand = $('#brandName'); if (brand) brand.textContent = data.artist.name;
-  const foot = $('#footerArtist'); if (foot) foot.textContent = data.artist.name;
-  const year = $('#year'); if (year) year.textContent = new Date().getFullYear();
-
-  // Bio / Highlights (use AZ variants if provided and LANG=az)
+  // Bio / Highlights (AZ fallback-aware)
   const bioText = (LANG === 'az' && data.artist.bio_az) ? data.artist.bio_az : data.artist.bio;
-  const bio = $('#bio'); if (bio) bio.textContent = bioText;
+  setText($('#bio'), bioText);
 
   const hi = $('#highlights');
   if (hi) {
@@ -71,52 +82,54 @@ function renderCommon(data) {
     list.forEach(h => hi.appendChild(el('li', { textContent: '• ' + h })));
   }
 
-  // Old About iframe safety
+  // If old iframe exists, keep it functional
   const video = $('#videoEmbed');
   if (video) video.src = data.artist.video_embed_url || '';
 }
 
-function applyStaticI18n(data) {
-  // Navbar
+function applyStaticI18n(/*data*/) {
   const d = document;
-  d.querySelector('a[href="#discography"]')?.replaceChildren(t('nav_discography'));
-  d.querySelector('a[href="#about"]')?.replaceChildren(t('nav_about'));
-  d.querySelector('a[href="#contact"]')?.replaceChildren(t('nav_contact'));
+  // Navbar labels
+  setText(d.querySelector('a[href="#discography"]'), t('nav_discography'));
+  setText(d.querySelector('a[href="#about"]'),       t('nav_about'));
+  setText(d.querySelector('a[href="#contact"]'),     t('nav_contact'));
 
   // Hero text + CTAs
-  $('#heroBadge')?.replaceChildren(t('hero_badge'));
-  $('#heroHeadline')?.replaceChildren(t('hero_headline'));
-  $('#heroSub')?.replaceChildren(t('hero_sub'));
+  setText($('#heroBadge'),    t('hero_badge'));
+  setText($('#heroHeadline'), t('hero_headline'));
+  setText($('#heroSub'),      t('hero_sub'));
 
-  // Hero CTAs
-const listenBtn = d.querySelector('a[href="#discography"].btn');
-if (listenBtn) listenBtn.innerHTML = `<i class="bi bi-play-fill me-1"></i> ${t('cta_listen')}`;
+  const listenBtn = d.querySelector('a[href="#discography"].btn');
+  if (listenBtn) setHTML(listenBtn, `<i class="bi bi-play-fill me-1"></i> ${t('cta_listen')}`);
 
-const watchBtn = d.querySelector('a[href="#youtube"].btn');
-if (watchBtn) watchBtn.innerHTML = `<i class="bi bi-youtube me-1"></i> ${t('cta_watch')}`;
+  const watchBtn  = d.querySelector('a[href="#youtube"].btn');
+  if (watchBtn)  setHTML(watchBtn,  `<i class="bi bi-youtube me-1"></i> ${t('cta_watch')}`);
 
   // Section titles/links
-  d.querySelector('#discography .section-title')?.replaceChildren(t('section_discography'));
-  d.querySelector('#youtube .section-title')?.replaceChildren(t('section_youtube'));
-  d.querySelector('#instagram .section-title')?.replaceChildren(t('section_instagram'));
-  $('#youtubeChannelLink')?.replaceChildren(t('see_all'));
-  $('#instagramProfileLink')?.replaceChildren(t('open_profile'));
-  d.querySelector('#about .section-title')?.replaceChildren(t('section_about'));
-  d.querySelector('#contact .section-title')?.replaceChildren(t('contact'));
+  setText(d.querySelector('#discography .section-title'), t('section_discography'));
+  setText(d.querySelector('#youtube .section-title'),     t('section_youtube'));
+  setText(d.querySelector('#instagram .section-title'),   t('section_instagram'));
+  setText($('#youtubeChannelLink'),   t('see_all'));
+  setText($('#instagramProfileLink'), t('open_profile'));
+  setText(d.querySelector('#about .section-title'),       t('section_about'));
+  setText(d.querySelector('#contact .section-title'),     t('contact'));
 
-  // Contact card titles/subtitles
-  $('#contact .card-title')?.replaceChildren(t('bookings_press'));
-  $('#contact .text-muted.small')?.replaceChildren(t('bookings_sub'));
-  // Follow card header
-  const followCard = Array.from(document.querySelectorAll('#contact .card-title')).find(n => n.textContent.trim() !== t('bookings_press'));
-  if (followCard) followCard.textContent = t('follow');
+  // Contact card titles/subtitle
+  const contactCardTitle = $('#contact .card-title');
+  setText(contactCardTitle, t('bookings_press'));
+  const contactSub = $('#contact .text-muted.small');
+  setText(contactSub, t('bookings_sub'));
 
-  // Latest release label
-  $('#latest-release-stack')?.replaceChildren(t('latest_release'));
+  // Follow card header (2nd card title under #contact)
+  const titles = d.querySelectorAll('#contact .card-title');
+  if (titles.length > 1) setText(titles[1], t('follow'));
+
+  // Latest release chip label if present
+  setText($('#latest-release-stack'), t('latest_release'));
 
   // Footer line
-  const footerNote = document.querySelector('footer .container div:last-child');
-  if (footerNote) footerNote.textContent = t('footer_built');
+  const footerNote = d.querySelector('footer .container div:last-child');
+  setText(footerNote, t('footer_built'));
 }
 
 function renderHero(data) {
@@ -124,8 +137,7 @@ function renderHero(data) {
   const latest = data.releases.find(r => r.id === latestId) || data.releases[0];
   if (!latest) return;
 
-  const meta = $('#latestReleaseMeta');
-  if (meta) meta.textContent = `${latest.title} • ${latest.year}`;
+  setText($('#latestReleaseMeta'), `${latest.title} • ${latest.year}`);
 
   const yt = $('#latestYouTube');
   if (yt) {
@@ -136,12 +148,9 @@ function renderHero(data) {
 }
 
 function renderTracks(data) {
-  const wrap = $('#tracks');
-  if (!wrap) return;
-
+  const wrap = $('#tracks'); if (!wrap) return;
   const allTracks = data.releases.flatMap(r => (r.tracks || []).map(t => ({ ...t, release: r })));
   wrap.innerHTML = '';
-
   allTracks.slice(0, 6).forEach(({ title, duration, release }) => {
     const col = el('div', { className: 'col-md-6 col-lg-4' });
 
@@ -193,7 +202,7 @@ function renderShows(data) {
                 <div class="text-muted small">${s.venue}</div>
               </div>
               <div class="text-end">
-                <div class="fw-semibold">${d.toLocaleDateString(LANG === 'az' ? 'az' : undefined,{ month:'short', day:'2-digit' })}</div>
+                <div class="fw-semibold">${d.toLocaleDateString(LANG === 'az' ? 'az' : undefined, { month:'short', day:'2-digit' })}</div>
                 <div class="text-muted small">${d.getFullYear()}</div>
               </div>
             </div>
@@ -211,15 +220,12 @@ function renderShows(data) {
 }
 
 function renderReleases(data) {
-  const wrap = $('#releases');
-  if (!wrap) return;
-
+  const wrap = $('#releases'); if (!wrap) return;
   wrap.innerHTML = '';
   data.releases.forEach(r => {
     const ytBtn = r.youtube_video_id
       ? `<a class="btn btn-accent btn-sm me-2" href="https://www.youtube.com/watch?v=${r.youtube_video_id}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>${t('btn_youtube')}</a>`
       : '';
-
     const scBtn = r.soundcloud_url
       ? `<a class="btn btn-outline-light btn-sm" href="${r.soundcloud_url}" target="_blank" rel="noreferrer"><i class="bi bi-soundwave me-1"></i>${t('btn_soundcloud')}</a>`
       : '';
@@ -244,9 +250,8 @@ function renderReleases(data) {
 }
 
 function renderContactSocials(data) {
-  // pick contacts by language
+  // contacts by language
   const c = (LANG === 'az' && data.contacts_az) ? data.contacts_az : (data.contacts || {});
-
   const info = $('#contactInfo');
   if (info) {
     info.innerHTML = `
@@ -271,10 +276,9 @@ function renderContactSocials(data) {
 function renderYouTubeRecent(data) {
   const grid = $('#ytGrid'); if (!grid) return;
   grid.innerHTML = '';
-
   const ids = data.youtube_videos || data.youtube_recent || [];
   const channelUrl = data.artist.channels?.youtube_channel_url || '#';
-  $('#youtubeChannelLink')?.setAttribute('href', channelUrl);
+  const link = $('#youtubeChannelLink'); if (link) link.href = channelUrl;
 
   ids.slice(0, 6).forEach(id => {
     const col = el('div', { className: 'col-md-6 col-lg-4' });
@@ -292,11 +296,10 @@ function renderYouTubeRecent(data) {
 
 function renderInstagram(data) {
   const grid = $('#igGrid'); if (!grid) return;
-
   grid.innerHTML = '';
   const posts = data.instagram_posts || [];
   const profile = data.artist.channels?.instagram_url || '#';
-  $('#instagramProfileLink')?.setAttribute('href', profile);
+  const link = $('#instagramProfileLink'); if (link) link.href = profile;
 
   posts.slice(0, 6).forEach(url => {
     const col = el('div', { className: 'col-md-6 col-lg-4' });
@@ -311,8 +314,7 @@ function renderInstagram(data) {
 }
 
 function renderAboutCarousel(data) {
-  const carousel = document.getElementById('aboutCarousel'); if (!carousel) return;
-
+  const carousel = $('#aboutCarousel'); if (!carousel) return;
   const inner = carousel.querySelector('.carousel-inner');
   const indicators = carousel.querySelector('.carousel-indicators');
   if (!inner) return;
@@ -333,7 +335,7 @@ function renderAboutCarousel(data) {
     inner.appendChild(item);
 
     if (indicators) {
-      const btn = el('button', {});
+      const btn = el('button');
       btn.type = 'button';
       btn.setAttribute('data-bs-target', '#aboutCarousel');
       btn.setAttribute('data-bs-slide-to', String(i));
@@ -349,23 +351,31 @@ function renderAboutCarousel(data) {
   indicators?.classList.toggle('d-none', single);
 }
 
-// ---------- boot ----------
+// ========================= BOOT =========================
 (() => {
   try {
     const data = loadData();
     I18N = data.i18n || {};
 
-    // initial language (default EN)
-    LANG = storage.get('lang') || 'en';
-    updateLangButtonsUI();
+    // Determine language: URL > storage > EN
+    const urlLang = getLangFromUrl();
+    const stored  = storage.get('lang');
+    LANG = urlLang || stored || 'en';
+    document.documentElement.lang = LANG;
 
-    // Flag button handlers (preventDefault helps on iOS)
+    // Wire flags (works for link or button variants)
+    const hash = window.location.hash || '';
+    const linkEN = $('#langLinkEN'); const linkAZ = $('#langLinkAZ');
+    if (linkEN) linkEN.href = `?lang=en${hash}`;
+    if (linkAZ) linkAZ.href = `?lang=az${hash}`;
+    // If you kept old button IDs, support them too (no page reload)
     $('#langBtnEN')?.addEventListener('click', (e) => { e.preventDefault(); setLang('en', data); });
     $('#langBtnAZ')?.addEventListener('click', (e) => { e.preventDefault(); setLang('az', data); });
 
     // Initial render
-    renderCommon(data);
+    markActiveFlag();
     applyStaticI18n(data);
+    renderCommon(data);
     renderHero(data);
     renderTracks(data);
     renderShows(data);
@@ -374,14 +384,8 @@ function renderAboutCarousel(data) {
     renderYouTubeRecent(data);
     renderInstagram(data);
     renderAboutCarousel(data);
+
   } catch (e) {
     console.error(e);
   }
 })();
-
-function updateLangButtonsUI() {
-  const en = $('#langBtnEN');
-  const az = $('#langBtnAZ');
-  if (en) en.classList.toggle('active', LANG === 'en');
-  if (az) az.classList.toggle('active', LANG === 'az');
-}

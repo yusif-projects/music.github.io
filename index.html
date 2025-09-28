@@ -27,39 +27,32 @@
 <body>
   <!-- NAV -->
   <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
-    <div class="container">
-      <a class="navbar-brand fw-semibold" href="#" id="brandName">Joe in the Studio</a>
+  <div class="container">
+    <!-- Brand -->
+    <a class="navbar-brand fw-semibold" href="#" id="brandName">Joe in the Studio</a>
 
-<!-- LANG BUTTONS (to the left of the hamburger) -->
-<div class="d-flex align-items-center ms-auto me-2">
-  <button id="langBtnEN"
-          class="btn btn-outline-light btn-sm btn-flag me-1"
-          type="button"
-          aria-label="Switch to English"
-          title="English">🇬🇧</button>
-
-  <button id="langBtnAZ"
-          class="btn btn-outline-light btn-sm btn-flag"
-          type="button"
-          aria-label="Azərbaycan dilinə keç"
-          title="Azərbaycan">🇦🇿</button>
-</div>
-
-<!-- HAMBURGER -->
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-</button>
-
-<!-- NAV LINKS (keep your existing list inside) -->
-<div class="collapse navbar-collapse" id="nav">
-  <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small">
-    <li class="nav-item"><a class="nav-link" href="#discography">Discography</a></li>
-    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-  </ul>
-</div>
+    <!-- Lang flags (left of hamburger) -->
+    <div class="d-flex align-items-center ms-auto me-2">
+      <a id="langLinkEN" class="btn btn-outline-light btn-sm btn-flag me-1" href="?lang=en" aria-label="English">🇬🇧</a>
+      <a id="langLinkAZ" class="btn btn-outline-light btn-sm btn-flag"     href="?lang=az" aria-label="Azərbaycan">🇦🇿</a>
     </div>
-  </nav>
+
+    <!-- Hamburger -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
+            aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible nav links -->
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small">
+        <li class="nav-item"><a class="nav-link" href="#discography">Discography</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
   <!-- HERO -->
   <header class="hero">
