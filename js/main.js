@@ -2,10 +2,19 @@
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const el = (tag, opts = {}) => Object.assign(document.createElement(tag), opts);
 
+// Safe storage for Safari Private Mode (no-ops if blocked)
+const storage = {
+  get(k) { try { return window.localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { window.localStorage.setItem(k, v); } catch { /* ignore */ } }
+};
+
+// Safer text/html setters for older Safari (no replaceChildren)
+const setText = (node, text) => { if (node) node.textContent = text ?? ''; };
+const setHTML = (node, html) => { if (node) node.innerHTML = html ?? ''; };
+
 // i18n helpers
 let LANG = 'en';
 let I18N = {};
-
 const t = (key) => (I18N[LANG] && I18N[LANG][key]) || (I18N.en && I18N.en[key]) || '';
 
 function setLang(lang, data) {
