@@ -215,3 +215,13 @@ a { color: var(--acc); }
 a:hover { color: var(--acc-600); }
 
 audio { width: 100%; }
+
+/* Make carousel images cover the 16:9 frame */
+.object-cover { object-fit: cover; }
+
+/* Warm accent for indicators on dark wood */
+#aboutCarousel .carousel-indicators [data-bs-target] {
+  background-color: var(--acc);
+  opacity: .6;
+}
+#aboutCarousel .carousel-indicators .active { opacity: 1; }

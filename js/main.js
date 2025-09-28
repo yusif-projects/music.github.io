@@ -1,6 +1,6 @@
 // --- tiny helpers ---
-const $ = (sel, ctx=document) => ctx.querySelector(sel);
-const el = (tag, opts={}) => Object.assign(document.createElement(tag), opts);
+const $ = (sel, ctx = document) => ctx.querySelector(sel);
+const el = (tag, opts = {}) => Object.assign(document.createElement(tag), opts);
 
 // Loads JSON from the inline <script id="site-data"> tag (works from file://)
 function loadData() {
@@ -11,20 +11,40 @@ function loadData() {
 
 function renderCommon(data) {
   document.title = `${data.artist.name} — Official Site`;
-  $('#brandName').textContent = data.artist.name;
-  $('#footerArtist').textContent = data.artist.name;
-  $('#year').textContent = new Date().getFullYear();
-  $('#bio').textContent = data.artist.bio;
+
+  const brand = $('#brandName');
+  if (brand) brand.textContent = data.artist.name;
+
+  const foot = $('#footerArtist');
+  if (foot) foot.textContent = data.artist.name;
+
+  const year = $('#year');
+  if (year) year.textContent = new Date().getFullYear();
+
+  const bio = $('#bio');
+  if (bio) bio.textContent = data.artist.bio;
+
   const hi = $('#highlights');
-  (data.artist.highlights || []).forEach(h => hi.appendChild(el('li', { textContent: '• ' + h })));
-  $('#videoEmbed').src = data.artist.video_embed_url || '';
+  if (hi) {
+    hi.innerHTML = '';
+    (data.artist.highlights || []).forEach(h =>
+      hi.appendChild(el('li', { textContent: '• ' + h }))
+    );
+  }
+
+  // Only set if the old About iframe still exists
+  const video = $('#videoEmbed');
+  if (video) video.src = data.artist.video_embed_url || '';
 }
 
 function renderHero(data) {
   const latestId = data.artist.hero?.latest_release_id;
   const latest = data.releases.find(r => r.id === latestId) || data.releases[0];
   if (!latest) return;
-  $('#latestReleaseMeta').textContent = `${latest.title} • ${latest.year}`;
+
+  const meta = $('#latestReleaseMeta');
+  if (meta) meta.textContent = `${latest.title} • ${latest.year}`;
+
   const yt = $('#latestYouTube');
   if (yt) {
     yt.src = latest.youtube_video_id
@@ -36,7 +56,9 @@ function renderHero(data) {
 function renderTracks(data) {
   const wrap = $('#tracks');
   if (!wrap) return;
+
   const allTracks = data.releases.flatMap(r => (r.tracks || []).map(t => ({ ...t, release: r })));
+  wrap.innerHTML = '';
   allTracks.slice(0, 6).forEach(({ title, duration, release }) => {
     const col = el('div', { className: 'col-md-6 col-lg-4' });
     const ytBtn = release.youtube_video_id
@@ -63,6 +85,8 @@ function renderShows(data) {
   const wrap = $('#showsList');
   const noShows = $('#noShows');
   if (!wrap || !noShows) return;
+
+  wrap.innerHTML = '';
   if (data.shows?.length) {
     noShows.style.display = 'none';
     data.shows.forEach(s => {
@@ -77,23 +101,28 @@ function renderShows(data) {
                 <div class="text-muted small">${s.venue}</div>
               </div>
               <div class="text-end">
-                <div class="fw-semibold">${d.toLocaleDateString(undefined,{month:'short', day:'2-digit'})}</div>
+                <div class="fw-semibold">${d.toLocaleDateString(undefined, { month: 'short', day: '2-digit' })}</div>
                 <div class="text-muted small">${d.getFullYear()}</div>
               </div>
             </div>
             <div class="mt-3 d-flex gap-2 align-items-center mt-auto">
-              <span class="chip ${s.status==='On Sale' ? 'badge-soft' : ''}">${s.status}</span>
+              <span class="chip ${s.status === 'On Sale' ? 'badge-soft' : ''}">${s.status}</span>
               ${s.ticket_url ? `<a class="btn btn-accent btn-sm ms-auto" href="${s.ticket_url}">Tickets</a>` : ''}
             </div>
           </div>
         </div>`;
       wrap.appendChild(col);
     });
+  } else {
+    noShows.style.display = '';
   }
 }
 
 function renderReleases(data) {
   const wrap = $('#releases');
+  if (!wrap) return;
+
+  wrap.innerHTML = '';
   data.releases.forEach(r => {
     const col = el('div', { className: 'col-md-6 col-lg-4' });
     col.innerHTML = `
@@ -117,33 +146,46 @@ function renderReleases(data) {
 }
 
 function renderContactSocials(data) {
-  const c = data.contacts;
-  $('#contactInfo').innerHTML = `
-    <div class="d-flex flex-column gap-2">
-      <div><i class="bi bi-envelope me-2"></i><a class="link-muted" href="mailto:${c.email}">${c.email}</a></div>
-      <div><i class="bi bi-person-badge me-2"></i>${c.manager}</div>
-      <div><i class="bi bi-geo-alt me-2"></i>${c.location}</div>
-    </div>`;
+  const c = data.contacts || {};
+  const info = $('#contactInfo');
+  if (info) {
+    info.innerHTML = `
+      <div class="d-flex flex-column gap-2">
+        <div><i class="bi bi-envelope me-2"></i><a class="link-muted" href="mailto:${c.email || ''}">${c.email || ''}</a></div>
+        <div><i class="bi bi-person-badge me-2"></i>${c.manager || ''}</div>
+        <div><i class="bi bi-geo-alt me-2"></i>${c.location || ''}</div>
+      </div>`;
+  }
+
   const sWrap = $('#socials');
-  (data.socials || []).forEach(s => {
-    const a = el('a', { href: s.url, target: '_blank', rel: 'noreferrer', className: 'btn btn-outline-light btn-sm' });
-    a.innerHTML = `<i class="bi ${s.icon} me-1"></i>${s.name}`;
-    sWrap.appendChild(a);
-  });
+  if (sWrap) {
+    sWrap.innerHTML = '';
+    (data.socials || []).forEach(s => {
+      const a = el('a', { href: s.url, target: '_blank', rel: 'noreferrer', className: 'btn btn-outline-light btn-sm' });
+      a.innerHTML = `<i class="bi ${s.icon} me-1"></i>${s.name}`;
+      sWrap.appendChild(a);
+    });
+  }
 }
 
 function renderYouTubeRecent(data) {
-  const ids = data.youtube_videos || [];
   const grid = $('#ytGrid');
+  if (!grid) return;
+
+  grid.innerHTML = '';
+  const ids = data.youtube_videos || data.youtube_recent || [];
   const channelUrl = data.artist.channels?.youtube_channel_url || '#';
   const link = $('#youtubeChannelLink');
   if (link) link.href = channelUrl;
-  ids.slice(0,6).forEach(id => {
+
+  ids.slice(0, 6).forEach(id => {
     const col = el('div', { className: 'col-md-6 col-lg-4' });
     col.innerHTML = `
       <div class="card h-100">
         <div class="ratio ratio-16x9">
-          <iframe src="https://www.youtube.com/embed/${id}" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+          <iframe src="https://www.youtube.com/embed/${id}" title="YouTube video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen loading="lazy"></iframe>
         </div>
       </div>`;
     grid.appendChild(col);
@@ -151,12 +193,16 @@ function renderYouTubeRecent(data) {
 }
 
 function renderInstagram(data) {
-  const posts = data.instagram_posts || [];
   const grid = $('#igGrid');
+  if (!grid) return;
+
+  grid.innerHTML = '';
+  const posts = data.instagram_posts || [];
   const profile = data.artist.channels?.instagram_url || '#';
   const link = $('#instagramProfileLink');
   if (link) link.href = profile;
-  posts.slice(0,6).forEach(url => {
+
+  posts.slice(0, 6).forEach(url => {
     const col = el('div', { className: 'col-md-6 col-lg-4' });
     col.innerHTML = `
       <div class="card h-100">
@@ -164,9 +210,60 @@ function renderInstagram(data) {
       </div>`;
     grid.appendChild(col);
   });
+
   if (window.instgrm && window.instgrm.Embeds) {
     window.instgrm.Embeds.process();
   }
+}
+
+function renderAboutCarousel(data) {
+  const carousel = document.getElementById('aboutCarousel');
+  if (!carousel) return;
+
+  const inner = carousel.querySelector('.carousel-inner');
+  const indicators = carousel.querySelector('.carousel-indicators');
+  if (!inner) return;
+
+  const photos = (data.artist.about_photos || []).filter(Boolean);
+  inner.innerHTML = '';
+  if (indicators) indicators.innerHTML = '';
+
+  // If no photos, hide controls/indicators and bail gracefully
+  if (!photos.length) {
+    carousel.querySelector('.carousel-control-prev')?.classList.add('d-none');
+    carousel.querySelector('.carousel-control-next')?.classList.add('d-none');
+    indicators?.classList.add('d-none');
+    return;
+  }
+
+  photos.forEach((src, i) => {
+    // slide
+    const item = el('div', { className: `carousel-item h-100${i === 0 ? ' active' : ''}` });
+    item.innerHTML = `
+      <img src="${src}" class="d-block w-100 h-100 object-cover" alt="About photo ${i + 1}" loading="lazy">
+    `;
+    inner.appendChild(item);
+
+    // dot
+    if (indicators) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('data-bs-target', '#aboutCarousel');
+      btn.setAttribute('data-bs-slide-to', String(i));
+      btn.setAttribute('aria-label', `Slide ${i + 1}`);
+      if (i === 0) {
+        btn.className = 'active';
+        btn.setAttribute('aria-current', 'true');
+      }
+      indicators.appendChild(btn);
+    }
+  });
+
+  // Hide controls if only one image
+  const single = photos.length === 1;
+  carousel.querySelector('.carousel-control-prev')?.classList.toggle('d-none', single);
+  carousel.querySelector('.carousel-control-next')?.classList.toggle('d-none', single);
+  indicators?.classList.toggle('d-none', single);
 }
 
 // boot
@@ -174,6 +271,7 @@ function renderInstagram(data) {
   try {
     const data = loadData();
     renderCommon(data);
+    renderAboutCarousel(data);      // <-- new
     renderHero(data);
     renderTracks(data);
     renderShows(data);
