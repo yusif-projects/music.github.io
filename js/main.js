@@ -2,30 +2,32 @@
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const el = (tag, opts = {}) => Object.assign(document.createElement(tag), opts);
 
-// Safe storage for Safari Private Mode (no-ops if blocked)
+// Safe storage (Safari Private Mode tolerant)
 const storage = {
   get(k) { try { return window.localStorage.getItem(k); } catch { return null; } },
   set(k, v) { try { window.localStorage.setItem(k, v); } catch { /* ignore */ } }
 };
 
-// Safer text/html setters for older Safari (no replaceChildren)
+// Safe setters (avoid replaceChildren for older Safari)
 const setText = (node, text) => { if (node) node.textContent = text ?? ''; };
 const setHTML = (node, html) => { if (node) node.innerHTML = html ?? ''; };
 
-// i18n helpers
+// i18n
 let LANG = 'en';
 let I18N = {};
 const t = (key) => (I18N[LANG] && I18N[LANG][key]) || (I18N.en && I18N.en[key]) || '';
 
 function setLang(lang, data) {
-  LANG = (lang === 'az') ? 'az' : 'en';   // default EN
-  localStorage.setItem('lang', LANG);
-  $('#langCurrent').textContent = LANG.toUpperCase();
+  LANG = (lang === 'az') ? 'az' : 'en'; // default EN
+  storage.set('lang', LANG);
+  updateLangButtonsUI();
 
-  applyStaticI18n(data);   // updates static labels (nav, headings, CTAs)
-  renderCommon(data);      // <-- re-renders bio + highlights in the new language
+  // Update static labels and About copy
+  applyStaticI18n(data);
+  renderCommon(data);
 
-  clearRendered();         // wipe dynamic grids
+  // Rebuild dynamic sections
+  clearRendered();
   renderHero(data);
   renderTracks(data);
   renderShows(data);
@@ -352,11 +354,16 @@ function renderAboutCarousel(data) {
   try {
     const data = loadData();
     I18N = data.i18n || {};
-    LANG = localStorage.getItem('lang') || 'en'; // default EN always
-    $('#langEN')?.addEventListener('click', () => setLang('en', data));
-    $('#langAZ')?.addEventListener('click', () => setLang('az', data));
-    $('#langCurrent').textContent = LANG.toUpperCase();
 
+    // initial language (default EN)
+    LANG = storage.get('lang') || 'en';
+    updateLangButtonsUI();
+
+    // Flag button handlers (preventDefault helps on iOS)
+    $('#langBtnEN')?.addEventListener('click', (e) => { e.preventDefault(); setLang('en', data); });
+    $('#langBtnAZ')?.addEventListener('click', (e) => { e.preventDefault(); setLang('az', data); });
+
+    // Initial render
     renderCommon(data);
     applyStaticI18n(data);
     renderHero(data);
@@ -371,3 +378,10 @@ function renderAboutCarousel(data) {
     console.error(e);
   }
 })();
+
+function updateLangButtonsUI() {
+  const en = $('#langBtnEN');
+  const az = $('#langBtnAZ');
+  if (en) en.classList.toggle('active', LANG === 'en');
+  if (az) az.classList.toggle('active', LANG === 'az');
+}

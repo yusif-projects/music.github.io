@@ -29,26 +29,35 @@
   <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
     <div class="container">
       <a class="navbar-brand fw-semibold" href="#" id="brandName">Joe in the Studio</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="nav">
-        <div class="dropdown ms-lg-3 mt-2 mt-lg-0">
-          <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false" id="langCurrent">
-            EN
-          </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><button class="dropdown-item" id="langEN">English</button></li>
-            <li><button class="dropdown-item" id="langAZ">Azərbaycan</button></li>
-          </ul>
-        </div>
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small">
-          <li class="nav-item"><a class="nav-link" href="#discography">Discography</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-        </ul>
-      </div>
+
+<!-- LANG BUTTONS (to the left of the hamburger) -->
+<div class="d-flex align-items-center ms-auto me-2">
+  <button id="langBtnEN"
+          class="btn btn-outline-light btn-sm btn-flag me-1"
+          type="button"
+          aria-label="Switch to English"
+          title="English">🇬🇧</button>
+
+  <button id="langBtnAZ"
+          class="btn btn-outline-light btn-sm btn-flag"
+          type="button"
+          aria-label="Azərbaycan dilinə keç"
+          title="Azərbaycan">🇦🇿</button>
+</div>
+
+<!-- HAMBURGER -->
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
+
+<!-- NAV LINKS (keep your existing list inside) -->
+<div class="collapse navbar-collapse" id="nav">
+  <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small">
+    <li class="nav-item"><a class="nav-link" href="#discography">Discography</a></li>
+    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+  </ul>
+</div>
     </div>
   </nav>
 

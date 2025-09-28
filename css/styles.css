@@ -229,3 +229,22 @@ audio { width: 100%; }
 #aboutCarousel .carousel-indicators .active { opacity: 1; }
 
 #latest-release-stack { text-align: left; }
+
+/* Flag language buttons */
+.btn-flag {
+  width: 36px;
+  height: 36px;
+  line-height: 1;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 18px; /* emoji size */
+}
+
+.btn-flag.active {
+  background: var(--muted);
+  border-color: var(--acc);
+  color: var(--ink-dark);
+}
