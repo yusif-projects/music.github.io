@@ -2,11 +2,11 @@
 const $ = (sel, ctx=document) => ctx.querySelector(sel);
 const el = (tag, opts={}) => Object.assign(document.createElement(tag), opts);
 
-// Load JSON (same-origin). Use a local server when developing.
-async function loadData() {
-  const res = await fetch('data/site-data.json', { cache: 'no-store' });
-  if (!res.ok) throw new Error('Failed to load site-data.json');
-  return res.json();
+// Loads JSON from the inline <script id="site-data"> tag (works from file://)
+function loadData() {
+  const tag = document.getElementById('site-data');
+  if (!tag || !tag.textContent) throw new Error('site-data script tag missing or empty');
+  return JSON.parse(tag.textContent);
 }
 
 function renderCommon(data) {
@@ -17,7 +17,7 @@ function renderCommon(data) {
   $('#bio').textContent = data.artist.bio;
   const hi = $('#highlights');
   (data.artist.highlights || []).forEach(h => hi.appendChild(el('li', { textContent: '• ' + h })));
-  $('#videoEmbed').src = data.artist.video_embed_url;
+  $('#videoEmbed').src = data.artist.video_embed_url || '';
 }
 
 function renderHero(data) {
@@ -25,21 +25,22 @@ function renderHero(data) {
   const latest = data.releases.find(r => r.id === latestId) || data.releases[0];
   if (!latest) return;
   $('#latestReleaseMeta').textContent = `${latest.title} • ${latest.year}`;
-  const player = $('#latestPlayer');
-  player.src = latest.audio_url || latest.tracks?.[0]?.audio_url || '';
-  const platWrap = $('#latestPlatforms');
-  (latest.platforms || []).forEach(p => {
-    const a = el('a', { href: p.url, target: '_blank', rel: 'noreferrer', className: 'chip link-muted' });
-    a.innerHTML = `<i class="bi bi-box-arrow-up-right me-1"></i>${p.name}`;
-    platWrap.appendChild(a);
-  });
+  const yt = $('#latestYouTube');
+  if (yt) {
+    yt.src = latest.youtube_video_id
+      ? `https://www.youtube.com/embed/${latest.youtube_video_id}`
+      : (data.artist.video_embed_url || '');
+  }
 }
 
 function renderTracks(data) {
   const wrap = $('#tracks');
   const allTracks = data.releases.flatMap(r => (r.tracks || []).map(t => ({ ...t, release: r })));
-  allTracks.slice(0, 6).forEach(({ title, duration, audio_url, release }) => {
+  allTracks.slice(0, 6).forEach(({ title, duration, release }) => {
     const col = el('div', { className: 'col-md-6 col-lg-4' });
+    const ytBtn = release.youtube_video_id
+      ? `<a class="btn btn-accent btn-sm mt-2" href="https://www.youtube.com/watch?v=${release.youtube_video_id}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>Watch on YouTube</a>`
+      : '';
     col.innerHTML = `
       <div class="card h-100">
         <img src="${release.cover}" class="card-img-top" alt="${release.title} cover" loading="lazy"/>
@@ -48,11 +49,11 @@ function renderTracks(data) {
             <span class="small text-muted">${release.title} • ${release.year}</span>
             <span class="small chip">${release.type}</span>
           </div>
-          <h5 class="card-title mb-2">${title}</h5>
-          <audio controls preload="none" class="mt-auto"></audio>
+          <h5 class="card-title mb-1">${title}</h5>
+          <div class="text-muted small mb-2">${duration || ''}</div>
+          <div class="mt-auto">${ytBtn}</div>
         </div>
       </div>`;
-    col.querySelector('audio').src = audio_url || '';
     wrap.appendChild(col);
   });
 }
@@ -104,8 +105,8 @@ function renderReleases(data) {
           <ul class="list-unstyled small mb-3">
             ${(r.tracks || []).map(t => `<li>• ${t.title} <span class="text-muted">${t.duration || ''}</span></li>`).join('')}
           </ul>
-          <div class="mt-auto d-flex gap-2 flex-wrap">
-            ${(r.platforms || []).map(p => `<a class="chip link-muted" href="${p.url}" target="_blank" rel="noreferrer"><i class="bi bi-box-arrow-up-right me-1"></i>${p.name}</a>`).join('')}
+          <div class="mt-auto">
+            ${r.youtube_video_id ? `<a class="btn btn-accent btn-sm" href="https://www.youtube.com/watch?v=${r.youtube_video_id}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>Watch on YouTube</a>` : ''}
           </div>
         </div>
       </div>`;
@@ -129,16 +130,55 @@ function renderContactSocials(data) {
   });
 }
 
+function renderYouTubeRecent(data) {
+  const ids = data.youtube_recent || [];
+  const grid = $('#ytGrid');
+  const channelUrl = data.artist.channels?.youtube_channel_url || '#';
+  const link = $('#youtubeChannelLink');
+  if (link) link.href = channelUrl;
+  ids.slice(0,6).forEach(id => {
+    const col = el('div', { className: 'col-md-6 col-lg-4' });
+    col.innerHTML = `
+      <div class="card h-100">
+        <div class="ratio ratio-16x9">
+          <iframe src="https://www.youtube.com/embed/${id}" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>`;
+    grid.appendChild(col);
+  });
+}
+
+function renderInstagram(data) {
+  const posts = data.instagram_posts || [];
+  const grid = $('#igGrid');
+  const profile = data.artist.channels?.instagram_url || '#';
+  const link = $('#instagramProfileLink');
+  if (link) link.href = profile;
+  posts.slice(0,6).forEach(url => {
+    const col = el('div', { className: 'col-md-6 col-lg-4' });
+    col.innerHTML = `
+      <div class="card h-100">
+        <blockquote class="instagram-media" data-instgrm-permalink="${url}" data-instgrm-version="14" style="margin:0 auto; width:100%;"></blockquote>
+      </div>`;
+    grid.appendChild(col);
+  });
+  if (window.instgrm && window.instgrm.Embeds) {
+    window.instgrm.Embeds.process();
+  }
+}
+
 // boot
-(async () => {
+(() => {
   try {
-    const data = await loadData();
+    const data = loadData();
     renderCommon(data);
     renderHero(data);
     renderTracks(data);
     renderShows(data);
     renderReleases(data);
     renderContactSocials(data);
+    renderYouTubeRecent(data);
+    renderInstagram(data);
   } catch (e) {
     console.error(e);
   }
