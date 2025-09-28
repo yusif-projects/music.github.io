@@ -151,9 +151,6 @@ function renderReleases(data) {
             <h5 class="card-title mb-0">${r.title}</h5>
             <span class="chip">${r.type} • ${r.year}</span>
           </div>
-          <ul class="list-unstyled small mb-3">
-            ${(r.tracks || []).map(t => `<li>• ${t.title} <span class="text-muted">${t.duration || ''}</span></li>`).join('')}
-          </ul>
           <div class="mt-auto d-flex flex-wrap gap-2">
             ${ytBtn}
             ${scBtn}
