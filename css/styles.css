@@ -1,54 +1,49 @@
 :root {
-  /* Core brand tokens (HEX) */
-  --bg: #1a0c06;           /* ember mahogany */
-  --bg-soft: #211008;      /* smoky walnut */
-  --bg-deep: #120704;      /* kiln char */
-  --card: #2b160f;         /* roasted pecan */
-  --text: #f5e7d7;         /* parchment */
-  --muted: #d9c7b6;        /* warm sand */
+  /* ---------------- Core tokens (HEX) ---------------- */
+--bg:       #0d0603;  /* almost black espresso */
+--bg-soft:  #140805;  /* deeper smoky walnut */
+--bg-deep:  #080403;  /* near-black kiln char */
+  --card: #2b160f;            /* roasted pecan */
+  --text: #f5e7d7;            /* parchment */
+  --muted: #d9c7b6;           /* warm sand */
 
-  --acc: #ff8c42;          /* ember orange */
-  --acc-600: #e6762f;      /* darker accent for hover */
-  --warm: #d96e22;         /* secondary warm hue */
-  --navbar-bg: #2b160f;    /* navbar backdrop base */
+  --acc: #ff8c42;             /* ember orange */
+  --acc-600: #e6762f;         /* darker accent for hover */
+  --warm: #d96e22;            /* secondary warm hue */
+  --navbar-bg: #2b160f;       /* navbar backdrop base */
 
-  /* Precomputed alpha variants (8-digit HEX) */
+  /* -------- alpha variants (8-digit HEX) -------- */
   /* on-dark (subtle warm white) */
-  --on-dark-03: #FFEEE008; /* ≈3% */
-  --on-dark-06: #FFEEE00F; /* ≈6% */
-  --on-dark-08: #FFEEE014; /* ≈8% */
-  --on-dark-10: #FFEEE01A; /* 10% */
-  --on-dark-12: #FFEEE01F; /* 12% */
-  --on-dark-15: #FFEEE026; /* 15% */
-  --on-dark-20: #FFEEE033; /* 20% */
-  --on-dark-35: #FFEEE059; /* 35% */
-  --on-dark-55: #FFEEE08C; /* 55% */
+  --on-dark-03: #FFEEE008;    /* ~3%  */
+  --on-dark-06: #FFEEE00F;    /* ~6%  */
+  --on-dark-08: #FFEEE014;    /* ~8%  */
+  --on-dark-10: #FFEEE01A;    /* 10%  */
+  --on-dark-12: #FFEEE01F;    /* 12%  */
+  --on-dark-15: #FFEEE026;    /* 15%  */
+  --on-dark-20: #FFEEE033;    /* 20%  */
+  --on-dark-35: #FFEEE059;    /* 35%  */
+  --on-dark-55: #FFEEE08C;    /* 55%  */
 
-  /* accent variants */
+  /* accent/warm alphas */
   --acc-10: #FF8C421A;
   --acc-14: #FF8C4224;
   --acc-18: #FF8C422E;
   --acc-35: #FF8C4259;
 
-  /* warm variants */
   --warm-10: #D96E221A;
   --warm-16: #D96E2229;
 
-  /* navbar backdrop with alpha */
-  --navbar-bg-70: #2B160FB3; /* 70% opacity */
-
-  /* ring glow (use accent at 10%) */
-  --ring-10: #FF8C421A;
-
-  /* dark ink for buttons over orange */
-  --ink-dark: #1f1009;
+  /* misc */
+  --navbar-bg-70: #2B160FB3;  /* 70% opacity */
+  --ring-10: #FF8C421A;       /* accent glow */
+  --ink-dark: #1f1009;        /* text on accent buttons */
 }
 
-/* ------------------------------------------------------------------ */
-/* Base / Layout                                                      */
-/* ------------------------------------------------------------------ */
-html,
-body {
+/* ===================================================== */
+/* Base / Layout                                         */
+/* ===================================================== */
+
+html, body {
   background:
     radial-gradient(circle at top right, var(--acc-10), transparent 55%),
     radial-gradient(circle at bottom left, var(--warm-16), transparent 60%),
@@ -60,20 +55,16 @@ body {
   font-family: "Source Sans 3", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
+h1, h2, h3, h4, h5, h6,
 .navbar-brand {
   font-family: "Playfair Display", Georgia, "Times New Roman", serif;
   letter-spacing: 0.3px;
 }
 
-/* ------------------------------------------------------------------ */
-/* Navbar                                                             */
-/* ------------------------------------------------------------------ */
+/* ===================================================== */
+/* Navbar                                                */
+/* ===================================================== */
+
 .navbar {
   background: var(--navbar-bg-70);
   backdrop-filter: blur(8px);
@@ -88,9 +79,10 @@ h6,
   color: var(--text);
 }
 
-/* ------------------------------------------------------------------ */
-/* Hero                                                               */
-/* ------------------------------------------------------------------ */
+/* ===================================================== */
+/* Hero                                                  */
+/* ===================================================== */
+
 .hero {
   min-height: 70vh;
   display: grid;
@@ -101,19 +93,16 @@ h6,
     var(--bg-soft);
 }
 
-/* ------------------------------------------------------------------ */
-/* Cards                                                              */
-/* ------------------------------------------------------------------ */
+/* ===================================================== */
+/* Cards                                                 */
+/* ===================================================== */
+
 .card {
   background: var(--card);
-  border: 1px solid var(--on-dark-06);
+  border: 1px solid var(--on-dark-08);
   border-radius: 10px;
   position: relative;
   overflow: hidden;
-}
-
-.card { /* strengthen border color */
-  border-color: var(--on-dark-08);
 }
 
 .card::after {
@@ -131,14 +120,49 @@ h6,
   border-color: var(--acc-35);
 }
 
-/* Section titles */
-.section-title {
-  letter-spacing: 0.6px;
+/* ===================================================== */
+/* Typography / Links                                    */
+/* ===================================================== */
+
+.text-muted {
+  color: var(--muted) !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* Buttons                                                            */
-/* ------------------------------------------------------------------ */
+/* Default card titles are LIGHT for readability */
+.card-title {
+  color: var(--text) !important;
+}
+
+/* Optional helper if you want an orange title somewhere */
+.title-accent {
+  color: var(--acc) !important;
+}
+
+.link-muted {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.link-muted:hover {
+  color: var(--text);
+}
+
+/* Force important UI texts to be light */
+.fw-semibold,
+#contactInfo,
+#contactInfo a,
+#latestReleaseMeta,
+#releases .card-title,
+#releases .list-unstyled li,
+#tracks  .card-title,
+#tracks  .list-unstyled li {
+  color: var(--text) !important;
+}
+
+/* ===================================================== */
+/* Buttons                                               */
+/* ===================================================== */
+
 .btn-accent {
   --bs-btn-bg: var(--acc);
   --bs-btn-border-color: var(--acc);
@@ -154,29 +178,10 @@ h6,
   --bs-btn-hover-border-color: var(--on-dark-55);
 }
 
-/* ------------------------------------------------------------------ */
-/* Text / Links                                                        */
-/* ------------------------------------------------------------------ */
-.text-muted {
-  color: var(--muted) !important;
-}
+/* ===================================================== */
+/* Utilities                                             */
+/* ===================================================== */
 
-.card-title {
-  color: var(--acc) !important;
-}
-
-.link-muted {
-  color: var(--muted);
-  text-decoration: none;
-}
-
-.link-muted:hover {
-  color: var(--text);
-}
-
-/* ------------------------------------------------------------------ */
-/* Utilities                                                           */
-/* ------------------------------------------------------------------ */
 .divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--on-dark-15), transparent);
@@ -206,14 +211,7 @@ h6,
   box-shadow: 0 0 0 0.25rem var(--ring-10);
 }
 
-a {
-  color: var(--acc);
-}
+a { color: var(--acc); }
+a:hover { color: var(--acc-600); }
 
-a:hover {
-  color: var(--acc-600);
-}
-
-audio {
-  width: 100%;
-}
+audio { width: 100%; }
