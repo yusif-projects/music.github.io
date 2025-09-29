@@ -1,5 +1,8 @@
 // ========================= main.js =========================
 // Tiny helpers
+import * as json from '../data/data.json' with {type: 'json'};
+
+
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const el = (tag, opts = {}) => Object.assign(document.createElement(tag), opts);
 
@@ -53,9 +56,7 @@ function setLang(lang, data, persist = true) {
 
 // ---- Data loading / clearing ----
 function loadData() {
-  const tag = document.getElementById('site-data');
-  if (!tag || !tag.textContent) throw new Error('site-data script tag missing or empty');
-  return JSON.parse(tag.textContent);
+  return json.default;
 }
 function clearRendered() {
   ['#tracks', '#showsList', '#releases', '#ytGrid', '#igGrid'].forEach(sel => {
@@ -355,6 +356,7 @@ function renderAboutCarousel(data) {
 (() => {
   try {
     const data = loadData();
+    console.log(data);
     I18N = data.i18n || {};
 
     // Determine language: URL > stored > EN (and persist URL choice)
