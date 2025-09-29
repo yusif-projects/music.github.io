@@ -6,4 +6,4 @@ setTimeout(()=>{
     if(url){
         window.location = url;
     }
-}, 500);
+}, 100);
