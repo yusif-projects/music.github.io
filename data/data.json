@@ -58,6 +58,34 @@
     ],
     "releases": [
         {
+            "id": "rel_005",
+            "title": "I Guess It's Destiny",
+            "type": "Single",
+            "year": 2022,
+            "cover": "Assets/album-covers/rel_005.jpg",
+            "soundcloud_url": "https://soundcloud.com/joeinthestudio/i-guess-its-destiny",
+            "tracks": [
+                {
+                    "title": "I Guess It's Destiny",
+                    "duration": "1:05"
+                }
+            ]
+        },
+        {
+            "id": "rel_004",
+            "title": "I Just Like Her, idk",
+            "type": "Single",
+            "year": 2022,
+            "cover": "Assets/album-covers/rel_004.jpg",
+            "soundcloud_url": "https://soundcloud.com/joeinthestudio/i-just-like-her-idk",
+            "tracks": [
+                {
+                    "title": "I Just Like Her, idk",
+                    "duration": "3:02"
+                }
+            ]
+        },
+        {
             "id": "rel_003",
             "title": "What If She's Not Single?",
             "type": "Single",
