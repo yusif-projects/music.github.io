@@ -65,6 +65,97 @@ function clearRendered() {
   });
 }
 
+// ====================== CAROUSEL HELPERS ======================
+const carouselRegistry = new Map();
+let carouselResizeBound = false;
+
+function updateCarouselButtons(state) {
+  const { viewport, prev, next } = state;
+  if (!viewport || !prev || !next) return;
+
+  const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+  const scrollable = maxScroll > 1;
+  const tolerance = 1;
+  const atStart = viewport.scrollLeft <= tolerance;
+  const atEnd = viewport.scrollLeft >= (maxScroll - tolerance);
+
+  const hidePrev = !scrollable || atStart;
+  const hideNext = !scrollable || atEnd;
+
+  prev.classList.toggle('d-none', hidePrev);
+  next.classList.toggle('d-none', hideNext);
+
+  prev.disabled = hidePrev;
+  next.disabled = hideNext;
+}
+
+function scrollCarouselBy(state, direction) {
+  const { viewport, track } = state;
+  if (!viewport || !track) return;
+
+  const first = track.querySelector(':scope > *');
+  if (!first) return;
+
+  const style = window.getComputedStyle(track);
+  const gap = parseFloat(style.columnGap || style.gap || '0') || 0;
+  const itemWidth = first.getBoundingClientRect().width;
+  const amount = direction * (itemWidth + gap);
+
+  viewport.scrollBy({ left: amount, behavior: 'smooth' });
+}
+
+function setupCarousel(trackId) {
+  const track = document.getElementById(trackId);
+  if (!track) return;
+
+  const shell = track.closest('.carousel-shell');
+  if (!shell) return;
+
+  const viewport = shell.querySelector('.carousel-window');
+  const prev = shell.querySelector('.carousel-btn-prev');
+  const next = shell.querySelector('.carousel-btn-next');
+  if (!viewport || !prev || !next) return;
+
+  let state = carouselRegistry.get(shell);
+  if (!state) {
+    state = { shell, track, viewport, prev, next };
+    carouselRegistry.set(shell, state);
+  }
+
+  state.track = track;
+  state.viewport = viewport;
+  state.prev = prev;
+  state.next = next;
+
+  state.update = () => updateCarouselButtons(state);
+
+  viewport.scrollLeft = 0;
+
+  if (!state.bound) {
+    prev.addEventListener('click', () => {
+      scrollCarouselBy(state, -1);
+      window.requestAnimationFrame(() => state.update());
+    });
+    next.addEventListener('click', () => {
+      scrollCarouselBy(state, 1);
+      window.requestAnimationFrame(() => state.update());
+    });
+    viewport.addEventListener('scroll', () => {
+      window.requestAnimationFrame(() => state.update());
+    }, { passive: true });
+    state.bound = true;
+  }
+
+  state.update();
+
+  if (!carouselResizeBound) {
+    window.addEventListener('resize', () => {
+      carouselRegistry.forEach(s => s.update?.());
+    });
+    carouselResizeBound = true;
+  }
+}
+
 // ======================== RENDERERS ========================
 function renderCommon(data) {
   document.title = `${data.artist.name} — Official Site`;
@@ -231,8 +322,8 @@ function renderReleases(data) {
       ? `<a class="btn btn-outline-light btn-sm" href="${r.soundcloud_url}" target="_blank" rel="noreferrer"><i class="bi bi-soundwave me-1"></i>${t('btn_soundcloud')}</a>`
       : '';
 
-    const col = el('div', { className: 'col-md-6 col-lg-4' });
-    col.innerHTML = `
+    const item = el('div', { className: 'carousel-card' });
+    item.innerHTML = `
       <div class="card h-100">
         <img src="${r.cover}" class="card-img-top" alt="${r.title} cover" loading="lazy"/>
         <div class="card-body d-flex flex-column">
@@ -246,8 +337,10 @@ function renderReleases(data) {
           </div>
         </div>
       </div>`;
-    wrap.appendChild(col);
+    wrap.appendChild(item);
   });
+
+  setupCarousel('releases');
 }
 
 function renderContactSocials(data) {
@@ -282,8 +375,8 @@ function renderYouTubeRecent(data) {
   const link = $('#youtubeChannelLink'); if (link) link.href = channelUrl;
 
   ids.slice(0, 6).forEach(id => {
-    const col = el('div', { className: 'col-md-6 col-lg-4' });
-    col.innerHTML = `
+    const item = el('div', { className: 'carousel-card' });
+    item.innerHTML = `
       <div class="card h-100">
         <div class="ratio ratio-16x9">
           <iframe src="https://www.youtube.com/embed/${id}" title="YouTube video"
@@ -291,8 +384,10 @@ function renderYouTubeRecent(data) {
             allowfullscreen loading="lazy"></iframe>
         </div>
       </div>`;
-    grid.appendChild(col);
+    grid.appendChild(item);
   });
+
+  setupCarousel('ytGrid');
 }
 
 function renderInstagram(data) {
@@ -303,15 +398,17 @@ function renderInstagram(data) {
   const link = $('#instagramProfileLink'); if (link) link.href = profile;
 
   posts.slice(0, 6).forEach(url => {
-    const col = el('div', { className: 'col-md-6 col-lg-4' });
-    col.innerHTML = `
+    const item = el('div', { className: 'carousel-card' });
+    item.innerHTML = `
       <div class="card h-100">
         <blockquote class="instagram-media" data-instgrm-permalink="${url}" data-instgrm-version="14" data-instgrm-theme="dark" style="margin:0 auto; width:100%;"></blockquote>
       </div>`;
-    grid.appendChild(col);
+    grid.appendChild(item);
   });
 
   if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+
+  setupCarousel('igGrid');
 }
 
 function renderAboutCarousel(data) {

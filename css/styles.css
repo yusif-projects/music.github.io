@@ -250,3 +250,126 @@ audio { width: 100%; }
   border-color: var(--acc);
   color: var(--ink-dark);
 }
+
+/* ===================================================== */
+/* Carousels                                            */
+/* ===================================================== */
+
+.carousel-shell {
+  position: relative;
+}
+
+
+.carousel-window {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  margin: 0 2.8rem;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0.25rem;
+}
+
+.carousel-window::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-track {
+  --carousel-gap: 1.5rem;
+  display: flex;
+  gap: var(--carousel-gap);
+  flex-wrap: nowrap;
+  padding: 0.25rem 0;
+}
+
+.carousel-track > * {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.carousel-card .card {
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  .carousel-track > * {
+    flex: 0 0 calc(50% - var(--carousel-gap) / 2);
+  }
+}
+
+@media (min-width: 1200px) {
+  .carousel-track > * {
+    flex: 0 0 calc(33.333% - var(--carousel-gap) * 2 / 3);
+  }
+}
+
+.carousel-shell[data-carousel="igGrid"] .carousel-window {
+  margin: 0 2rem;
+}
+
+.carousel-shell[data-carousel="igGrid"] .carousel-card .card {
+  padding: 0;
+}
+
+.carousel-shell[data-carousel="igGrid"] .carousel-card .instagram-media,
+.carousel-shell[data-carousel="igGrid"] .carousel-card .instagram-media * {
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+@media (max-width: 575.98px) {
+  .carousel-shell[data-carousel="igGrid"] .carousel-window {
+    margin: 0 1.25rem;
+  }
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid var(--on-dark-12);
+  background: var(--on-dark-10);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  z-index: 2;
+}
+
+.carousel-btn:hover {
+  background: var(--on-dark-20);
+  border-color: var(--acc-35);
+}
+
+.carousel-btn:focus {
+  outline: none;
+  border-color: var(--acc);
+}
+
+.carousel-btn.carousel-btn-prev {
+  left: 0.25rem;
+}
+
+.carousel-btn.carousel-btn-next {
+  right: 0.25rem;
+}
+
+.carousel-btn[disabled] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+@media (max-width: 575.98px) {
+  .carousel-window {
+    margin: 0 1.9rem;
+  }
+
+  .carousel-btn {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+}
