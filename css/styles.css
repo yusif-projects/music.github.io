@@ -153,7 +153,7 @@ h1, h2, h3, h4, h5, h6,
 .fw-semibold,
 #contactInfo,
 #contactInfo a,
-#latestReleaseMeta,
+#selectedReleaseMeta,
 #releases .card-title,
 #releases .list-unstyled li,
 #tracks  .card-title,
@@ -230,7 +230,7 @@ audio { width: 100%; }
 }
 #aboutCarousel .carousel-indicators .active { opacity: 1; }
 
-#latest-release-stack { text-align: left; }
+#selected-release-stack, #selectedReleaseMeta { text-align: left; }
 
 /* Flag language buttons */
 .btn-flag {

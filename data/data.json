@@ -14,7 +14,7 @@
             "Sevimli DAW: Logic Pro X"
         ],
         "hero": {
-            "latest_release_id": "rel_002"
+            "selected_release_id": "rel_002"
         },
         "channels": {
             "youtube_channel_url": "https://www.youtube.com/@joeinthestudio",
@@ -57,6 +57,20 @@
         }
     ],
     "releases": [
+        {
+            "id": "rel_003",
+            "title": "What If She's Not Single?",
+            "type": "Single",
+            "year": 2022,
+            "cover": "Assets/album-covers/rel_003.jpg",
+            "soundcloud_url": "https://soundcloud.com/joeinthestudio/what-if-shes-not-single",
+            "tracks": [
+                {
+                    "title": "What If She's Not Single?",
+                    "duration": "2:26"
+                }
+            ]
+        },
         {
             "id": "rel_002",
             "title": "Really Don't",
@@ -119,7 +133,7 @@
             "bookings_sub": "For shows, collaborations, and press inquiries.",
             "follow": "Follow",
             "footer_built": "Built with ❤️ by Yusif Aliyev.",
-            "latest_release": "Latest Release",
+            "selected_release": "Featured Release",
             "btn_youtube": "YouTube",
             "btn_soundcloud": "SoundCloud"
         },
@@ -143,7 +157,7 @@
             "bookings_sub": "Konsertlər, əməkdaşlıqlar və mətbuat sorğuları üçün.",
             "follow": "İzləyin",
             "footer_built": "❤️ ilə hazırlanıb — Yusif Əliyev.",
-            "latest_release": "Son Buraxılış",
+            "selected_release": "Seçilmiş Buraxılış",
             "btn_youtube": "YouTube",
             "btn_soundcloud": "SoundCloud"
         }

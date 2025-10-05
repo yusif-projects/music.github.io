@@ -126,7 +126,7 @@ function applyStaticI18n(/*data*/) {
   if (titles.length > 1) setText(titles[1], t('follow'));
 
   // Latest release chip label if present
-  setText($('#latest-release-stack'), t('latest_release'));
+  setText($('#selected-release-stack'), t('selected_release'));
 
   // Footer line
   const footerNote = d.querySelector('footer .container div:last-child');
@@ -134,16 +134,16 @@ function applyStaticI18n(/*data*/) {
 }
 
 function renderHero(data) {
-  const latestId = data.artist.hero?.latest_release_id;
-  const latest = data.releases.find(r => r.id === latestId) || data.releases[0];
-  if (!latest) return;
+  const selectedId = data.artist.hero?.selected_release_id;
+  const selected = data.releases.find(r => r.id === selectedId) || data.releases[0];
+  if (!selected) return;
 
-  setText($('#latestReleaseMeta'), `${latest.title} • ${latest.year}`);
+  setText($('#selectedReleaseMeta'), `${selected.title} • ${selected.year}`);
 
   const yt = $('#latestYouTube');
   if (yt) {
-    yt.src = latest.youtube_video_id
-      ? `https://www.youtube.com/embed/${latest.youtube_video_id}`
+    yt.src = selected.youtube_video_id
+      ? `https://www.youtube.com/embed/${selected.youtube_video_id}`
       : (data.artist.video_embed_url || '');
   }
 }
