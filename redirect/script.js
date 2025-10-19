@@ -1,9 +1,32 @@
 const params = new URLSearchParams(location.search);
-const url = params.get('url');
-console.log(url);
+    const url = params.get('url');
+    console.log("Target:", url);
 
-setTimeout(()=>{
-    if(url){
-        window.location = url;
+    if (!url) {
+      document.body.innerHTML = "<h1 style='text-align:center;color:red;'>No URL provided.</h1>";
+    } else {
+      const a = document.createElement("a");
+      a.href = url;
+
+      // Try opening the deep link
+      const fallback = () => {
+        // If deep link fails, redirect to HTTPS version
+        try {
+          const safeUrl = url
+            .replace(/^([a-zA-Z]+):\/\//, "") // remove custom scheme
+            .replace(/^\/+/, ""); // remove leading slashes if any
+          window.location.href = `https://${safeUrl}`;
+        } catch (e) {
+          console.error("Fallback failed:", e);
+        }
+      };
+
+      // Attempt to open the deep link
+      const start = Date.now();
+      window.location.href = url;
+
+      // If after 1 second nothing happens (the user is still here), assume failure
+      setTimeout(() => {
+        if (Date.now() - start < 1500) fallback();
+      }, 1000);
     }
-}, 100);
