@@ -52,8 +52,18 @@
         },
         {
             "name": "SoundCloud",
-            "url": "https://soundcloud.com/joeinthestudio",
+            "url": "https://soundcloud.com/joeinthestudio/tracks",
             "icon": "bi-soundwave"
+        },
+        {
+            "name": "Reddit",
+            "url": "https://www.reddit.com/user/joe-in-the-studio/submitted/?sort=top",
+            "icon": "bi-reddit"
+        },
+        {
+            "name": "Twitter / X",
+            "url": "https://x.com/joeinthestudio",
+            "icon": "bi-twitter-x"
         }
     ],
     "releases": [
