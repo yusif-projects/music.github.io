@@ -3,7 +3,7 @@ const params = new URLSearchParams(location.search);
     console.log("Target:", url);
 
     if (!url) {
-      document.body.innerHTML = "<h1 style='text-align:center;color:red;'>No URL provided.</h1>";
+      document.body.innerHTML = "<h1 id='redirect-label'>No URL Provided</h1>";
     } else {
       const a = document.createElement("a");
       a.href = url;

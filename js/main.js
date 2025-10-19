@@ -374,7 +374,7 @@ function renderYouTubeRecent(data) {
   const channelUrl = data.artist.channels?.youtube_channel_url || '#';
   const link = $('#youtubeChannelLink'); if (link) link.href = channelUrl;
 
-  ids.slice(0, 6).forEach(id => {
+  ids.slice(0, 10).forEach(id => {
     const item = el('div', { className: 'carousel-card' });
     item.innerHTML = `
       <div class="card h-100">
@@ -397,7 +397,7 @@ function renderInstagram(data) {
   const profile = data.artist.channels?.instagram_url || '#';
   const link = $('#instagramProfileLink'); if (link) link.href = profile;
 
-  posts.slice(0, 6).forEach(url => {
+  posts.slice(0, 10).forEach(url => {
     const item = el('div', { className: 'carousel-card' });
     item.innerHTML = `
       <div class="card h-100">
