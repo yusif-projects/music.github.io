@@ -64,6 +64,11 @@
             "name": "Twitter / X",
             "url": "https://x.com/joeinthestudio",
             "icon": "bi-twitter-x"
+        },
+        {
+            "name": "Twitch",
+            "url": "https://www.twitch.tv/joeinthestudio",
+            "icon": "bi-twitch"
         }
     ],
     "releases": [
