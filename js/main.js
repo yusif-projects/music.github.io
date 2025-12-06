@@ -262,9 +262,12 @@ function renderReleases(data) {
       : '';
 
     const item = el('div', { className: 'carousel-card' });
+    // SEO-optimized alt text with keywords for Google Images
+    const altText = `${r.title} by Joe in the Studio - Album Cover Art ${r.year}`;
+    const titleText = `${r.title} by Joe in the Studio - Music Release ${r.year}`;
     item.innerHTML = `
       <div class="card h-100">
-        <img src="${r.cover}" class="card-img-top" alt="${r.title} cover" loading="lazy"/>
+        <img src="${r.cover}" class="card-img-top" alt="${altText}" title="${titleText}" loading="lazy"/>
         <div class="card-body d-flex flex-column">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h5 class="card-title mb-0">${r.title}</h5>
@@ -386,7 +389,10 @@ function renderAboutCarousel(data) {
 
   photos.forEach((src, i) => {
     const item = el('div', { className: `carousel-item h-100${i === 0 ? ' active' : ''}` });
-    item.innerHTML = `<img src="${src}" class="d-block w-100 h-100 object-cover" alt="About photo ${i + 1}" loading="lazy">`;
+    // SEO-optimized alt text with keywords for Google Images
+    const altText = `Joe in the Studio - Behind the scenes photo ${i + 1} - Music artist and producer`;
+    const titleText = `Joe in the Studio - Studio session and music production photo ${i + 1}`;
+    item.innerHTML = `<img src="${src}" class="d-block w-100 h-100 object-cover" alt="${altText}" title="${titleText}" loading="lazy">`;
     inner.appendChild(item);
 
     if (indicators) {
@@ -477,12 +483,40 @@ function updateSEOTags(data) {
       });
     }
     
+    // Collect all album cover images for image schema
+    const albumImages = (data.releases || []).map(r => ({
+      "@type": "ImageObject",
+      "url": `${baseUrl}/${r.cover}`,
+      "caption": `${r.title} by ${artistName} - Album Cover ${r.year}`,
+      "name": `${r.title} by ${artistName}`
+    }));
+    
+    // Collect about photos
+    const aboutImages = (data.artist.about_photos || []).map((src, i) => ({
+      "@type": "ImageObject",
+      "url": `${baseUrl}/${src}`,
+      "caption": `${artistName} - Behind the scenes studio photo ${i + 1}`,
+      "name": `${artistName} Studio Photo ${i + 1}`
+    }));
+    
+    // Combine all images: logo, album covers, and about photos
+    const allImages = [
+      {
+        "@type": "ImageObject",
+        "url": imageUrl,
+        "caption": `${artistName} - Official Logo and Profile Picture`,
+        "name": `${artistName} Logo`
+      },
+      ...albumImages,
+      ...aboutImages
+    ];
+    
     structuredData.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "MusicGroup",
       "name": artistName,
       "url": baseUrl,
-      "image": imageUrl,
+      "image": allImages,
       "description": bio,
       "sameAs": socialLinks
     });
