@@ -52,6 +52,8 @@ function setLang(lang, data, persist = true) {
   renderYouTubeRecent(data);
   renderInstagram(data);
   renderAboutCarousel(data);
+  // Update SEO tags for language change
+  updateSEOTags(data);
 }
 
 // ====================== DATA MANAGEMENT ======================
@@ -181,6 +183,9 @@ function renderCommon(data) {
       : (data.artist.highlights || []);
     list.forEach(h => hi.appendChild(el('li', { textContent: '• ' + h })));
   }
+  
+  // Update SEO tags dynamically
+  updateSEOTags(data);
 }
 
 function applyStaticI18n(/*data*/) {
@@ -399,6 +404,89 @@ function renderAboutCarousel(data) {
   carousel.querySelector('.carousel-control-prev')?.classList.toggle('d-none', single);
   carousel.querySelector('.carousel-control-next')?.classList.toggle('d-none', single);
   indicators?.classList.toggle('d-none', single);
+}
+
+// ====================== SEO OPTIMIZATION ======================
+function updateSEOTags(data) {
+  if (!data?.artist) return;
+  
+  const artistName = data.artist.name;
+  const bio = (LANG === 'az' && data.artist.bio_az) ? data.artist.bio_az : data.artist.bio;
+  const baseUrl = 'https://www.joeinthestudio.com';
+  const currentUrl = baseUrl + window.location.pathname + (LANG === 'az' ? '?lang=az' : (LANG === 'en' ? '?lang=en' : ''));
+  const canonicalUrl = baseUrl + window.location.pathname + (LANG === 'az' ? '?lang=az' : '');
+  const imageUrl = `${baseUrl}/Assets/logo.jpg`;
+  
+  // Update title
+  document.title = `${artistName} — Official Site`;
+  
+  // Update meta description
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) {
+    metaDesc.content = bio.substring(0, 160);
+  }
+  
+  // Update canonical URL
+  const canonical = document.getElementById('canonical-url');
+  if (canonical) {
+    canonical.href = canonicalUrl;
+  }
+  
+  // Update language alternates
+  const altEn = document.getElementById('hreflang-en');
+  const altAz = document.getElementById('hreflang-az');
+  if (altEn) altEn.href = `${baseUrl}?lang=en`;
+  if (altAz) altAz.href = `${baseUrl}?lang=az`;
+  
+  // Update Open Graph tags
+  const ogTitle = document.getElementById('og-title');
+  const ogDesc = document.getElementById('og-description');
+  const ogImage = document.getElementById('og-image');
+  const ogUrl = document.getElementById('og-url');
+  
+  if (ogTitle) ogTitle.content = `${artistName} — Official Site`;
+  if (ogDesc) ogDesc.content = bio.substring(0, 200);
+  if (ogImage) ogImage.content = imageUrl;
+  if (ogUrl) ogUrl.content = currentUrl;
+  
+  // Update Twitter tags
+  const twTitle = document.getElementById('twitter-title');
+  const twDesc = document.getElementById('twitter-description');
+  const twImage = document.getElementById('twitter-image');
+  const twUrl = document.getElementById('twitter-url');
+  
+  if (twTitle) twTitle.content = `${artistName} — Official Site`;
+  if (twDesc) twDesc.content = bio.substring(0, 200);
+  if (twImage) twImage.content = imageUrl;
+  if (twUrl) twUrl.content = currentUrl;
+  
+  // Update structured data
+  const structuredData = document.getElementById('structured-data');
+  if (structuredData && data.artist.channels) {
+    const socialLinks = [
+      data.artist.channels.youtube_channel_url,
+      data.artist.channels.instagram_url
+    ].filter(Boolean);
+    
+    // Add all social links from data.socials if available
+    if (data.socials && Array.isArray(data.socials)) {
+      data.socials.forEach(s => {
+        if (s?.url && !socialLinks.includes(s.url)) {
+          socialLinks.push(s.url);
+        }
+      });
+    }
+    
+    structuredData.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MusicGroup",
+      "name": artistName,
+      "url": baseUrl,
+      "image": imageUrl,
+      "description": bio,
+      "sameAs": socialLinks
+    });
+  }
 }
 
 // ========================= BOOT =========================
