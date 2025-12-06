@@ -155,9 +155,7 @@ h1, h2, h3, h4, h5, h6,
 #contactInfo a,
 #selectedReleaseMeta,
 #releases .card-title,
-#releases .list-unstyled li,
-#tracks  .card-title,
-#tracks  .list-unstyled li {
+#releases .list-unstyled li {
   color: var(--text) !important;
 }
 

@@ -1,8 +1,10 @@
 // ========================= main.js =========================
-// Tiny helpers
+// Artist website for Joe in the Studio
+// Data-driven, bilingual (EN/AZ), responsive static site
+
 import * as json from '../data/data.json' with {type: 'json'};
 
-
+// ====================== UTILITY HELPERS ======================
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const el = (tag, opts = {}) => Object.assign(document.createElement(tag), opts);
 
@@ -16,12 +18,12 @@ const storage = {
 const setText = (node, text) => { if (node) node.textContent = text ?? ''; };
 const setHTML = (node, html) => { if (node) node.innerHTML = html ?? ''; };
 
-// i18n state
+// ====================== I18N / LANGUAGE ======================
 let LANG = 'en';
 let I18N = {};
 const t = (key) => (I18N[LANG] && I18N[LANG][key]) || (I18N.en && I18N.en[key]) || '';
 
-// ---- Language routing (URL-first, storage as fallback) ----
+// Language routing (URL-first, storage as fallback)
 function getLangFromUrl() {
   const u = new URL(window.location.href);
   const q = (u.searchParams.get('lang') || '').toLowerCase();
@@ -45,8 +47,6 @@ function setLang(lang, data, persist = true) {
   // Rebuild dynamic sections
   clearRendered();
   renderHero(data);
-  renderTracks(data);
-  renderShows(data);
   renderReleases(data);
   renderContactSocials(data);
   renderYouTubeRecent(data);
@@ -54,12 +54,16 @@ function setLang(lang, data, persist = true) {
   renderAboutCarousel(data);
 }
 
-// ---- Data loading / clearing ----
+// ====================== DATA MANAGEMENT ======================
 function loadData() {
+  if (!json?.default) {
+    throw new Error('Failed to load data.json');
+  }
   return json.default;
 }
+
 function clearRendered() {
-  ['#tracks', '#showsList', '#releases', '#ytGrid', '#igGrid'].forEach(sel => {
+  ['#releases', '#ytGrid', '#igGrid'].forEach(sel => {
     const node = $(sel);
     if (node) node.innerHTML = '';
   });
@@ -156,8 +160,10 @@ function setupCarousel(trackId) {
   }
 }
 
-// ======================== RENDERERS ========================
+// ====================== RENDER FUNCTIONS ======================
 function renderCommon(data) {
+  if (!data?.artist) return;
+
   document.title = `${data.artist.name} — Official Site`;
   setText($('#brandName'), data.artist.name);
   setText($('#footerArtist'), data.artist.name);
@@ -170,13 +176,11 @@ function renderCommon(data) {
   const hi = $('#highlights');
   if (hi) {
     hi.innerHTML = '';
-    const list = (LANG === 'az' && data.artist.highlights_az) ? data.artist.highlights_az : (data.artist.highlights || []);
+    const list = (LANG === 'az' && data.artist.highlights_az) 
+      ? data.artist.highlights_az 
+      : (data.artist.highlights || []);
     list.forEach(h => hi.appendChild(el('li', { textContent: '• ' + h })));
   }
-
-  // If old iframe exists, keep it functional
-  const video = $('#videoEmbed');
-  if (video) video.src = data.artist.video_embed_url || '';
 }
 
 function applyStaticI18n(/*data*/) {
@@ -239,80 +243,10 @@ function renderHero(data) {
   }
 }
 
-function renderTracks(data) {
-  const wrap = $('#tracks'); if (!wrap) return;
-  const allTracks = data.releases.flatMap(r => (r.tracks || []).map(t => ({ ...t, release: r })));
-  wrap.innerHTML = '';
-  allTracks.slice(0, 6).forEach(({ title, duration, release }) => {
-    const col = el('div', { className: 'col-md-6 col-lg-4' });
-
-    const ytBtn = release.youtube_video_id
-      ? `<a class="btn btn-accent btn-sm mt-2 me-2" href="https://www.youtube.com/watch?v=${release.youtube_video_id}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>${t('btn_youtube')}</a>`
-      : '';
-
-    const scBtn = release.soundcloud_url
-      ? `<a class="btn btn-outline-light btn-sm mt-2" href="${release.soundcloud_url}" target="_blank" rel="noreferrer"><i class="bi bi-soundwave me-1"></i>${t('btn_soundcloud')}</a>`
-      : '';
-
-    col.innerHTML = `
-      <div class="card h-100">
-        <img src="${release.cover}" class="card-img-top" alt="${release.title} cover" loading="lazy"/>
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex justify-content-between align-items-center mb-1">
-            <span class="small text-muted">${release.title} • ${release.year}</span>
-            <span class="small chip">${release.type}</span>
-          </div>
-          <h5 class="card-title mb-1">${title}</h5>
-          <div class="text-muted small mb-2">${duration || ''}</div>
-          <div class="mt-auto d-flex flex-wrap gap-2">
-            ${ytBtn}
-            ${scBtn}
-          </div>
-        </div>
-      </div>`;
-    wrap.appendChild(col);
-  });
-}
-
-function renderShows(data) {
-  const wrap = $('#showsList');
-  const noShows = $('#noShows');
-  if (!wrap || !noShows) return;
-
-  wrap.innerHTML = '';
-  if (data.shows?.length) {
-    noShows.style.display = 'none';
-    data.shows.forEach(s => {
-      const d = new Date(s.date + 'T00:00:00');
-      const col = el('div', { className: 'col-md-6 col-lg-4' });
-      col.innerHTML = `
-        <div class="card h-100">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between">
-              <div>
-                <div class="fw-semibold">${s.city}</div>
-                <div class="text-muted small">${s.venue}</div>
-              </div>
-              <div class="text-end">
-                <div class="fw-semibold">${d.toLocaleDateString(LANG === 'az' ? 'az' : undefined, { month: 'short', day: '2-digit' })}</div>
-                <div class="text-muted small">${d.getFullYear()}</div>
-              </div>
-            </div>
-            <div class="mt-3 d-flex gap-2 align-items-center mt-auto">
-              <span class="chip ${s.status === 'On Sale' ? 'badge-soft' : ''}">${s.status}</span>
-              ${s.ticket_url ? `<a class="btn btn-accent btn-sm ms-auto" href="${s.ticket_url}">${t('cta_listen')}</a>` : ''}
-            </div>
-          </div>
-        </div>`;
-      wrap.appendChild(col);
-    });
-  } else {
-    noShows.style.display = '';
-  }
-}
-
 function renderReleases(data) {
-  const wrap = $('#releases'); if (!wrap) return;
+  const wrap = $('#releases');
+  if (!wrap || !data?.releases?.length) return;
+  
   wrap.innerHTML = '';
   data.releases.forEach(r => {
     const ytBtn = r.youtube_video_id
@@ -344,7 +278,9 @@ function renderReleases(data) {
 }
 
 function renderContactSocials(data) {
-  // contacts by language
+  if (!data) return;
+
+  // Contacts by language
   const c = (LANG === 'az' && data.contacts_az) ? data.contacts_az : (data.contacts || {});
   const info = $('#contactInfo');
   if (info) {
@@ -357,24 +293,34 @@ function renderContactSocials(data) {
   }
 
   const sWrap = $('#socials');
-  if (sWrap) {
+  if (sWrap && Array.isArray(data.socials)) {
     sWrap.innerHTML = '';
-    (data.socials || []).forEach(s => {
-      const a = el('a', { href: s.url, target: '_blank', rel: 'noreferrer', className: 'btn btn-outline-light btn-sm' });
-      a.innerHTML = `<i class="bi ${s.icon} me-1"></i>${s.name}`;
+    data.socials.forEach(s => {
+      if (!s?.url || !s?.name) return;
+      const a = el('a', { 
+        href: s.url, 
+        target: '_blank', 
+        rel: 'noreferrer', 
+        className: 'btn btn-outline-light btn-sm' 
+      });
+      a.innerHTML = `<i class="bi ${s.icon || ''} me-1"></i>${s.name}`;
       sWrap.appendChild(a);
     });
   }
 }
 
 function renderYouTubeRecent(data) {
-  const grid = $('#ytGrid'); if (!grid) return;
+  const grid = $('#ytGrid');
+  if (!grid || !data) return;
+  
   grid.innerHTML = '';
   const ids = data.youtube_videos || data.youtube_recent || [];
-  const channelUrl = data.artist.channels?.youtube_channel_url || '#';
-  const link = $('#youtubeChannelLink'); if (link) link.href = channelUrl;
+  const channelUrl = data.artist?.channels?.youtube_channel_url || '#';
+  const link = $('#youtubeChannelLink');
+  if (link) link.href = channelUrl;
 
   ids.slice(0, 10).forEach(id => {
+    if (!id) return;
     const item = el('div', { className: 'carousel-card' });
     item.innerHTML = `
       <div class="card h-100">
@@ -391,13 +337,17 @@ function renderYouTubeRecent(data) {
 }
 
 function renderInstagram(data) {
-  const grid = $('#igGrid'); if (!grid) return;
+  const grid = $('#igGrid');
+  if (!grid || !data) return;
+  
   grid.innerHTML = '';
   const posts = data.instagram_posts || [];
-  const profile = data.artist.channels?.instagram_url || '#';
-  const link = $('#instagramProfileLink'); if (link) link.href = profile;
+  const profile = data.artist?.channels?.instagram_url || '#';
+  const link = $('#instagramProfileLink');
+  if (link) link.href = profile;
 
   posts.slice(0, 10).forEach(url => {
+    if (!url) return;
     const item = el('div', { className: 'carousel-card' });
     item.innerHTML = `
       <div class="card h-100">
@@ -412,7 +362,9 @@ function renderInstagram(data) {
 }
 
 function renderAboutCarousel(data) {
-  const carousel = $('#aboutCarousel'); if (!carousel) return;
+  const carousel = $('#aboutCarousel');
+  if (!carousel || !data?.artist) return;
+  
   const inner = carousel.querySelector('.carousel-inner');
   const indicators = carousel.querySelector('.carousel-indicators');
   if (!inner) return;
@@ -453,7 +405,6 @@ function renderAboutCarousel(data) {
 (() => {
   try {
     const data = loadData();
-    console.log(data);
     I18N = data.i18n || {};
 
     // Determine language: URL > stored > EN (and persist URL choice)
@@ -474,19 +425,15 @@ function renderAboutCarousel(data) {
     const linkEN = $('#langLinkEN'); const linkAZ = $('#langLinkAZ');
     if (linkEN) linkEN.href = `?lang=en${hash}`;
     if (linkAZ) linkAZ.href = `?lang=az${hash}`;
-    // If you kept old button IDs, support them too (no page reload)
+    // Support button variants (no page reload)
     $('#langBtnEN')?.addEventListener('click', (e) => { e.preventDefault(); setLang('en', data); });
     $('#langBtnAZ')?.addEventListener('click', (e) => { e.preventDefault(); setLang('az', data); });
-
-
 
     // Initial render
     markActiveFlag();
     applyStaticI18n(data);
     renderCommon(data);
     renderHero(data);
-    renderTracks(data);
-    renderShows(data);
     renderReleases(data);
     renderContactSocials(data);
     renderYouTubeRecent(data);
@@ -494,6 +441,18 @@ function renderAboutCarousel(data) {
     renderAboutCarousel(data);
 
   } catch (e) {
-    console.error(e);
+    console.error('Failed to initialize application:', e);
+    // Show user-friendly error message
+    const body = document.body;
+    if (body) {
+      body.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; text-align: center;">
+          <div>
+            <h1>Error Loading Site</h1>
+            <p>Please refresh the page or contact support if the problem persists.</p>
+          </div>
+        </div>
+      `;
+    }
   }
 })();
