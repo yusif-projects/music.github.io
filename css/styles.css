@@ -86,13 +86,14 @@ h1, h2, h3, h4, h5, h6,
 /* ===================================================== */
 
 .hero {
-  min-height: 70vh;
-  display: grid;
-  place-items: center;
-  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
   background:
     linear-gradient(135deg, var(--acc-18), var(--warm-10) 45%, #FFEEE00D 100%),
     var(--bg-soft);
+  position: relative;
+  padding: 6rem 0 5rem;
 }
 
 /* ===================================================== */
@@ -387,4 +388,304 @@ audio { width: 100%; }
   align-items: center;
   min-height: 100vh;
   margin: 0;
+}
+
+/* ===================================================== */
+/* Film Grain Overlay                                    */
+/* ===================================================== */
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* ===================================================== */
+/* Badge Soft                                            */
+/* ===================================================== */
+
+.badge-soft {
+  background: var(--acc-14);
+  color: var(--acc);
+  border: 1px solid var(--acc-35);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  font-size: 0.72rem;
+  padding: 0.3em 0.8em;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+/* ===================================================== */
+/* Hero Redesign                                         */
+/* ===================================================== */
+
+.hero-eyebrow {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--acc);
+  margin-bottom: 0.6rem;
+  animation: fade-up 0.5s ease 0.05s both;
+}
+
+.hero-headline {
+  font-size: clamp(2rem, 5.5vw, 4rem);
+  line-height: 1.08;
+  letter-spacing: -0.5px;
+  animation: fade-up 0.5s ease 0.15s both;
+}
+
+.hero-sub {
+  color: var(--muted);
+  max-width: 42ch;
+  animation: fade-up 0.5s ease 0.25s both;
+}
+
+.hero .d-flex {
+  animation: fade-up 0.5s ease 0.35s both;
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--muted);
+  font-size: 1.1rem;
+  opacity: 0.5;
+  animation: scroll-bounce 2.2s ease-in-out infinite;
+  user-select: none;
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0);   opacity: 0.4; }
+  50%       { transform: translateX(-50%) translateY(7px); opacity: 0.7; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ===================================================== */
+/* Section Title Accent                                  */
+/* ===================================================== */
+
+.section-title {
+  position: relative;
+  padding-bottom: 0.55rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 2.2rem;
+  height: 2px;
+  background: var(--acc);
+  border-radius: 1px;
+}
+
+/* ===================================================== */
+/* Vinyl Animation                                       */
+/* ===================================================== */
+
+@keyframes vinyl-spin {
+  from { transform: translateY(-50%) rotate(0deg);   }
+  to   { transform: translateY(-50%) rotate(360deg); }
+}
+
+.release-img-wrap {
+  position: relative;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.vinyl-disc {
+  position: absolute;
+  width: 78%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  top: 50%;
+  right: -46%;
+  transform: translateY(-50%);
+  will-change: transform;
+  background: radial-gradient(circle at 50% 50%,
+    #000        0   5%,
+    #b84010    5%  14%,
+    #111       14%  15%,
+    #1d1d1d   15%  20%,
+    #111       20%  26%,
+    #1d1d1d   26%  31%,
+    #111       31%  39%,
+    #1d1d1d   39%  43%,
+    #111       43%  53%,
+    #1d1d1d   53%  57%,
+    #111       57% 100%
+  );
+  transition: right 0.5s cubic-bezier(0.34, 1.15, 0.64, 1);
+  animation: vinyl-spin 6s linear infinite paused;
+  z-index: 0;
+  box-shadow: -8px 0 28px rgba(0, 0, 0, 0.65);
+}
+
+.release-img-wrap:hover .vinyl-disc {
+  right: -16%;
+  animation-play-state: running;
+}
+
+.release-img-wrap img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.34, 1.15, 0.64, 1);
+}
+
+.release-img-wrap:hover img {
+  transform: translateX(-7%);
+}
+
+/* ===================================================== */
+/* Links Page (/links/)                                  */
+/* ===================================================== */
+
+.links-page-body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+}
+
+.links-container {
+  width: 100%;
+  max-width: 460px;
+  text-align: center;
+}
+
+.links-avatar-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--acc-35);
+  box-shadow: 0 0 0 4px var(--acc-10);
+  margin-bottom: 1.1rem;
+}
+
+.links-name {
+  font-family: "Playfair Display", serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.links-tagline {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-bottom: 2rem;
+}
+
+.links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 2.5rem;
+}
+
+.links-section-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--acc);
+  margin: 0.75rem 0 0.1rem;
+  text-align: left;
+}
+
+.links-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.5rem;
+  background: var(--on-dark-06);
+  border: 1px solid var(--on-dark-12);
+  border-radius: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background 0.18s, border-color 0.18s, transform 0.15s;
+}
+
+.links-link-btn:hover {
+  background: var(--on-dark-15);
+  border-color: var(--acc-35);
+  color: var(--text);
+  transform: translateY(-2px);
+}
+
+.links-footer-url {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.links-footer-url:hover {
+  color: var(--acc);
+}
+
+/* ===================================================== */
+/* Lyrics Page (/lyrics/)                                */
+/* ===================================================== */
+
+.lyrics-back {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+}
+
+.lyrics-back:hover { color: var(--acc); }
+
+.lyrics-card-link {
+  text-decoration: none;
+  display: block;
+  transition: transform 0.2s;
+}
+
+.lyrics-card-link:hover {
+  transform: translateY(-3px);
+}
+
+.lyrics-card-link .card {
+  border-color: var(--on-dark-08);
+  transition: border-color 0.2s;
+}
+
+.lyrics-card-link:hover .card {
+  border-color: var(--acc-35);
+}
+
+.lyrics-text {
+  font-size: 1.05rem;
+  line-height: 2;
+  color: var(--muted);
+  white-space: pre-wrap;
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.lyrics-song-meta {
+  font-size: 0.85rem;
+  color: var(--muted);
 }

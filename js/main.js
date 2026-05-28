@@ -3,6 +3,7 @@
 // Data-driven, bilingual (EN/AZ), responsive static site
 
 import * as json from '../data/data.json' with {type: 'json'};
+import releasesJson from '../data/releases.json' with {type: 'json'};
 
 // ====================== UTILITY HELPERS ======================
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
@@ -46,7 +47,6 @@ function setLang(lang, data, persist = true) {
   renderCommon(data);
   // Rebuild dynamic sections
   clearRendered();
-  renderHero(data);
   renderReleases(data);
   renderContactSocials(data);
   renderYouTubeRecent(data);
@@ -61,7 +61,7 @@ function loadData() {
   if (!json?.default) {
     throw new Error('Failed to load data.json');
   }
-  return json.default;
+  return { ...json.default, releases: releasesJson };
 }
 
 function clearRendered() {
@@ -192,12 +192,13 @@ function applyStaticI18n(/*data*/) {
   const d = document;
   // Navbar labels
   setText(d.querySelector('a[href="#discography"]'), t('nav_discography'));
+  setText(d.querySelector('a[href="lyrics/"]'), t('nav_lyrics'));
   setText(d.querySelector('a[href="#about"]'), t('nav_about'));
   setText(d.querySelector('a[href="#contact"]'), t('nav_contact'));
 
   // Hero text + CTAs
-  setText($('#heroBadge'), t('hero_badge'));
-  setText($('#heroHeadline'), t('hero_headline'));
+  setText($('#heroEyebrow'), t('hero_eyebrow'));
+setText($('#heroHeadline'), t('hero_headline'));
   setText($('#heroSub'), t('hero_sub'));
 
   const listenBtn = d.querySelector('a[href="#discography"].btn');
@@ -205,6 +206,9 @@ function applyStaticI18n(/*data*/) {
 
   const watchBtn = d.querySelector('a[href="#youtube"].btn');
   if (watchBtn) setHTML(watchBtn, `<i class="bi bi-youtube me-1"></i> ${t('cta_watch')}`);
+
+  const linksBtn = $('#ctaLinks');
+  if (linksBtn) setHTML(linksBtn, `<i class="bi bi-grid-3x3-gap me-1"></i> ${t('cta_links')}`);
 
   // Section titles/links
   setText(d.querySelector('#discography .section-title'), t('section_discography'));
@@ -225,27 +229,9 @@ function applyStaticI18n(/*data*/) {
   const titles = d.querySelectorAll('#contact .card-title');
   if (titles.length > 1) setText(titles[1], t('follow'));
 
-  // Latest release chip label if present
-  setText($('#selected-release-stack'), t('selected_release'));
-
   // Footer line
   const footerNote = d.querySelector('footer .container div:last-child');
   setText(footerNote, t('footer_built'));
-}
-
-function renderHero(data) {
-  const selectedId = data.artist.hero?.selected_release_id;
-  const selected = data.releases.find(r => r.id === selectedId) || data.releases[0];
-  if (!selected) return;
-
-  setText($('#selectedReleaseMeta'), `${selected.title} • ${selected.year}`);
-
-  const yt = $('#latestYouTube');
-  if (yt) {
-    yt.src = selected.youtube_video_id
-      ? `https://www.youtube.com/embed/${selected.youtube_video_id}`
-      : (data.artist.video_embed_url || '');
-  }
 }
 
 function renderReleases(data) {
@@ -254,28 +240,39 @@ function renderReleases(data) {
   
   wrap.innerHTML = '';
   data.releases.forEach(r => {
-    const ytBtn = r.youtube_video_id
-      ? `<a class="btn btn-accent btn-sm me-2" href="https://www.youtube.com/watch?v=${r.youtube_video_id}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>${t('btn_youtube')}</a>`
+    const spotifyBtn = r.spotify_url
+      ? `<a class="btn btn-accent btn-sm" href="${r.spotify_url}" target="_blank" rel="noreferrer"><i class="bi bi-spotify me-1"></i>${t('btn_spotify')}</a>`
       : '';
-    const scBtn = r.soundcloud_url
-      ? `<a class="btn btn-outline-light btn-sm" href="${r.soundcloud_url}" target="_blank" rel="noreferrer"><i class="bi bi-soundwave me-1"></i>${t('btn_soundcloud')}</a>`
+    const appleMusicBtn = r.apple_music_url
+      ? `<a class="btn btn-outline-light btn-sm" href="${r.apple_music_url}" target="_blank" rel="noreferrer"><i class="bi bi-music-note me-1"></i>${t('btn_apple_music')}</a>`
+      : '';
+
+    const lyricsBtn = r.lyrics
+      ? `<a class="btn btn-outline-light btn-sm" href="lyrics/?song=${r.id}"><i class="bi bi-music-note-list me-1"></i>${t('btn_lyrics')}</a>`
+      : '';
+    const descHtml = r.description
+      ? `<p class="text-muted small mb-3" style="flex-grow:0">${r.description}</p>`
       : '';
 
     const item = el('div', { className: 'carousel-card' });
-    // SEO-optimized alt text with keywords for Google Images
     const altText = `${r.title} by Joe in the Studio - Album Cover Art ${r.year}`;
     const titleText = `${r.title} by Joe in the Studio - Music Release ${r.year}`;
     item.innerHTML = `
       <div class="card h-100">
-        <img src="${r.cover}" class="card-img-top" alt="${altText}" title="${titleText}" loading="lazy"/>
+        <div class="release-img-wrap">
+          <div class="vinyl-disc"></div>
+          <img src="${r.cover}" class="card-img-top" alt="${altText}" title="${titleText}" loading="lazy"/>
+        </div>
         <div class="card-body d-flex flex-column">
-          <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="d-flex justify-content-between align-items-start mb-2">
             <h5 class="card-title mb-0">${r.title}</h5>
-            <span class="chip">${r.year}</span>
+            <span class="chip ms-2 flex-shrink-0">${r.year}</span>
           </div>
+          ${descHtml}
           <div class="mt-auto d-flex flex-wrap gap-2">
-            ${ytBtn}
-            ${scBtn}
+            ${spotifyBtn}
+            ${appleMusicBtn}
+            ${lyricsBtn}
           </div>
         </div>
       </div>`;
@@ -555,12 +552,19 @@ function updateSEOTags(data) {
     markActiveFlag();
     applyStaticI18n(data);
     renderCommon(data);
-    renderHero(data);
     renderReleases(data);
     renderContactSocials(data);
     renderYouTubeRecent(data);
     renderInstagram(data);
     renderAboutCarousel(data);
+
+    // Subtle hero parallax
+    const heroEl = document.querySelector('.hero');
+    if (heroEl) {
+      window.addEventListener('scroll', () => {
+        heroEl.style.backgroundPositionY = `${window.scrollY * 0.25}px`;
+      }, { passive: true });
+    }
 
   } catch (e) {
     console.error('Failed to initialize application:', e);
