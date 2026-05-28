@@ -1,0 +1,103 @@
+[
+    {
+        "id": "rel_009",
+        "title": "I Haven't Met You Yet",
+        "type": "Single",
+        "year": 2023,
+        "description": "",
+        "cover": "Assets/album-covers/rel_009.jpg",
+        "spotify_url": "https://open.spotify.com/album/4zusRygU4iu8dc0fXiRvUA?si=7DyTfDyBRXqrIX2ZEVx22w",
+        "apple_music_url": "https://music.apple.com/az/album/i-havent-met-you-yet-single/1675777950",
+        "lyrics": ""
+    },
+    {
+        "id": "rel_005",
+        "title": "I Guess It's Destiny",
+        "type": "Single",
+        "year": 2022,
+        "description": "",
+        "cover": "Assets/album-covers/rel_005.jpg",
+        "spotify_url": "https://open.spotify.com/album/0ajVHb3hvVTFy0oQLjWAB1?si=YR2jH791Qbi3dOKj0PdYrQ",
+        "apple_music_url": "https://music.apple.com/az/album/i-guess-its-destiny-single/1656598375",
+        "lyrics": ""
+    },
+    {
+        "id": "rel_004",
+        "title": "I Just Like Her, idk",
+        "type": "Single",
+        "year": 2022,
+        "description": "",
+        "cover": "Assets/album-covers/rel_004.jpg",
+        "spotify_url": "https://open.spotify.com/album/6SSJthU3krVTwMqD8wHdVA?si=CPDMbvI-QU6CqntUdYU-mw",
+        "apple_music_url": "https://music.apple.com/az/album/i-just-like-her-idk-single/1655572872",
+        "lyrics": ""
+    },
+    {
+        "id": "rel_003",
+        "title": "What If She's Not Single?",
+        "type": "Single",
+        "year": 2022,
+        "description": "",
+        "cover": "Assets/album-covers/rel_003.jpg",
+        "spotify_url": "https://open.spotify.com/album/7s0TQ3yixKL4y4U03kD2ZI?si=y7BpyYDVQg-PA4_6QLhbsw",
+        "apple_music_url": "https://music.apple.com/az/album/what-if-shes-not-single-single/1654553605",
+        "lyrics": ""
+    },
+    {
+        "id": "rel_008",
+        "title": "Feels Like We Only Go Backwards",
+        "type": "Single",
+        "year": 2022,
+        "description": "",
+        "cover": "Assets/album-covers/rel_008.jpg",
+        "spotify_url": "https://open.spotify.com/album/4YzuSWT3SQjxFIjmSfFg4j?si=G9mWfb0IRRadZtFIP9uU9w",
+        "apple_music_url": "https://music.apple.com/az/album/feels-like-we-only-go-backwards-single/1629716402",
+        "lyrics": ""
+    },
+    {
+        "id": "rel_007",
+        "title": "I Don't Wanna Let Go",
+        "type": "Single",
+        "year": 2022,
+        "description": "",
+        "cover": "Assets/album-covers/rel_007.jpg",
+        "spotify_url": "https://open.spotify.com/album/29Nc4aNsneYUHCuKk7KWv7?si=FGvQzF0qRxGnx2wC7fwDIA",
+        "apple_music_url": "https://music.apple.com/az/album/i-dont-wanna-let-go-single/1619990729",
+        "lyrics": ""
+    },
+    {
+        "id": "rel_002",
+        "title": "Really Don't",
+        "type": "Single",
+        "year": 2021,
+        "description": "",
+        "cover": "Assets/album-covers/rel_002.jpg",
+        "youtube_video_id": "RUB8SLtBIjM",
+        "spotify_url": "https://open.spotify.com/album/46ZlwuZ7rM67clJj5HU36m?si=1vpwZgonTh6v-JxyHLI8Tg",
+        "apple_music_url": "https://music.apple.com/az/album/really-dont-single/1594080333",
+        "lyrics": ""
+    },
+    {
+        "id": "rel_001",
+        "title": "An Anthem of Overthinking",
+        "type": "Single",
+        "year": 2021,
+        "description": "",
+        "cover": "Assets/album-covers/rel_001.jpg",
+        "youtube_video_id": "3HfvwX-f9cU",
+        "spotify_url": "https://open.spotify.com/album/1QZlWUjDrt4f92VkrGMKb7?si=JXr5snnzS4mrWgMugou36A",
+        "apple_music_url": "https://music.apple.com/az/album/an-anthem-of-overthinking-single/1578517328",
+        "lyrics": ""
+    },
+    {
+        "id": "rel_006",
+        "title": "You're Gonna Live Forever in Me",
+        "type": "Single",
+        "year": 2021,
+        "description": "",
+        "cover": "Assets/album-covers/rel_006.jpg",
+        "spotify_url": "https://open.spotify.com/album/6t6g8le4DxEn6h6nv6Uvka?si=_kyhICBHTn-QCz2Nv6hLVA",
+        "apple_music_url": "https://music.apple.com/az/album/youre-gonna-live-forever-in-me-single/1552862373",
+        "lyrics": ""
+    }
+]

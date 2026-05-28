@@ -1,7 +1,7 @@
 {
     "artist": {
         "name": "Joe in the Studio",
-        "bio": "Joe in the Studio is the stage name of Yusif Aliyev, a multi-instrumentalist and songwriter crafting music that feels like it could’ve been pressed on vinyl in the late 60s but still speaks to today. Armed with guitars, piano, bass, and drums — plus a knack for raw storytelling — every note is written, recorded, and produced solo in his small home studio.",
+        "bio": "Joe in the Studio is the stage name of Yusif Aliyev, a multi-instrumentalist and songwriter crafting music that feels like it could've been pressed on vinyl in the late 60s but still speaks to today. Armed with guitars, piano, bass, and drums — plus a knack for raw storytelling — every note is written, recorded, and produced solo in his small home studio.",
         "bio_az": "Joe in the Studio — Yusif Əliyevin səhnə adıdır. O, çoxalətli musiqiçi və bəstəkardır; elə musiqilər yaradır ki, sanki 60-cı illərin sonunda vinilə yazılıb, amma bu gün də öz aktuallığını qoruyur. Gitara, piano, bas və zərblərlə yanaşı, səmimi hekayəçilik bacarığı ilə də seçilən Yusifin hər bir notu kiçik ev studiyasında təkbaşına yazılır, ifa olunur və prodüserliyi edilir.",
         "highlights": [
             "Favorite Artists: The Beatles, Tame Impala, John Mayer",
@@ -13,9 +13,6 @@
             "Sevimli Gitara: Ibanez AF55",
             "Sevimli DAW: Logic Pro X"
         ],
-        "hero": {
-            "selected_release_id": "rel_002"
-        },
         "channels": {
             "youtube_channel_url": "https://www.youtube.com/@joeinthestudio",
             "instagram_url": "https://www.instagram.com/joeinthestudio/"
@@ -51,11 +48,6 @@
             "icon": "bi-youtube"
         },
         {
-            "name": "SoundCloud",
-            "url": "https://soundcloud.com/joeinthestudio/tracks",
-            "icon": "bi-soundwave"
-        },
-        {
             "name": "Reddit",
             "url": "https://www.reddit.com/user/joe-in-the-studio/submitted/?sort=top",
             "icon": "bi-reddit"
@@ -69,80 +61,6 @@
             "name": "Twitch",
             "url": "https://www.twitch.tv/joeinthestudio",
             "icon": "bi-twitch"
-        }
-    ],
-    "releases": [
-        {
-            "id": "rel_005",
-            "title": "I Guess It's Destiny",
-            "type": "Single",
-            "year": 2022,
-            "cover": "Assets/album-covers/rel_005.jpg",
-            "soundcloud_url": "https://soundcloud.com/joeinthestudio/i-guess-its-destiny",
-            "tracks": [
-                {
-                    "title": "I Guess It's Destiny",
-                    "duration": "1:05"
-                }
-            ]
-        },
-        {
-            "id": "rel_004",
-            "title": "I Just Like Her, idk",
-            "type": "Single",
-            "year": 2022,
-            "cover": "Assets/album-covers/rel_004.jpg",
-            "soundcloud_url": "https://soundcloud.com/joeinthestudio/i-just-like-her-idk",
-            "tracks": [
-                {
-                    "title": "I Just Like Her, idk",
-                    "duration": "3:02"
-                }
-            ]
-        },
-        {
-            "id": "rel_003",
-            "title": "What If She's Not Single?",
-            "type": "Single",
-            "year": 2022,
-            "cover": "Assets/album-covers/rel_003.jpg",
-            "soundcloud_url": "https://soundcloud.com/joeinthestudio/what-if-shes-not-single",
-            "tracks": [
-                {
-                    "title": "What If She's Not Single?",
-                    "duration": "2:26"
-                }
-            ]
-        },
-        {
-            "id": "rel_002",
-            "title": "Really Don't",
-            "type": "Single",
-            "year": 2021,
-            "cover": "Assets/album-covers/rel_002.jpg",
-            "youtube_video_id": "RUB8SLtBIjM",
-            "soundcloud_url": "https://soundcloud.com/joeinthestudio/really-dont",
-            "tracks": [
-                {
-                    "title": "Really Don't",
-                    "duration": "2:04"
-                }
-            ]
-        },
-        {
-            "id": "rel_001",
-            "title": "An Anthem of Overthinking",
-            "type": "Single",
-            "year": 2021,
-            "cover": "Assets/album-covers/rel_001.jpg",
-            "youtube_video_id": "3HfvwX-f9cU",
-            "soundcloud_url": "https://soundcloud.com/joeinthestudio/an-anthem-of-overthinking",
-            "tracks": [
-                {
-                    "title": "An Anthem of Overthinking",
-                    "duration": "2:32"
-                }
-            ]
         }
     ],
     "youtube_videos": [
@@ -168,11 +86,13 @@
             "nav_discography": "Discography",
             "nav_about": "About",
             "nav_contact": "Contact",
-            "hero_badge": "New single out now",
+            "nav_lyrics": "Lyrics",
+            "hero_eyebrow": "Singer · Songwriter · Producer",
             "hero_headline": "Guitars. Drums. Tape-warm indie rock.",
             "hero_sub": "Singer-songwriter & multi-instrumentalist. 60s-rooted indie with real guitars, bass, and drums — written, recorded, and produced solo.",
             "cta_listen": "Listen",
             "cta_watch": "Watch",
+            "cta_links": "All Links",
             "section_discography": "Discography",
             "section_youtube": "YouTube Videos",
             "section_instagram": "Instagram Reels",
@@ -184,19 +104,22 @@
             "bookings_sub": "For shows, collaborations, and press inquiries.",
             "follow": "Follow",
             "footer_built": "Built with ❤️ by Yusif Aliyev.",
-            "selected_release": "Featured Release",
-            "btn_youtube": "YouTube",
-            "btn_soundcloud": "SoundCloud"
+            "btn_spotify": "Spotify",
+            "btn_apple_music": "Apple Music",
+
+            "btn_lyrics": "Lyrics"
         },
         "az": {
             "nav_discography": "Diskoqrafiya",
             "nav_about": "Haqqında",
             "nav_contact": "Əlaqə",
-            "hero_badge": "Yeni single yayımlandı",
+            "nav_lyrics": "Sözlər",
+            "hero_eyebrow": "Müğənni · Bəstəkar · Prodüser",
             "hero_headline": "Gitara. Zərb. Lent-ab-havalı indie rok.",
             "hero_sub": "Müğənni-bəstəkar və multi-instrumentalist. 60-ların ruhunda gitara, bas və zərblə — sözləri və musiqisi studiyada təkbaşına yazılıb, ifa edilib və prodüs edilib.",
             "cta_listen": "Dinlə",
             "cta_watch": "İzlə",
+            "cta_links": "Bütün Linklər",
             "section_discography": "Diskoqrafiya",
             "section_youtube": "YouTube Videoları",
             "section_instagram": "Instagram Reelləri",
@@ -208,9 +131,10 @@
             "bookings_sub": "Konsertlər, əməkdaşlıqlar və mətbuat sorğuları üçün.",
             "follow": "İzləyin",
             "footer_built": "Yusif Əliyev tərəfindən ❤️ ilə hazırlanıb.",
-            "selected_release": "Seçilmiş Buraxılış",
-            "btn_youtube": "YouTube",
-            "btn_soundcloud": "SoundCloud"
+            "btn_spotify": "Spotify",
+            "btn_apple_music": "Apple Music",
+
+            "btn_lyrics": "Sözlər"
         }
     }
 }

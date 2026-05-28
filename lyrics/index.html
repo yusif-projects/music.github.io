@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title id="page-title">Lyrics — Joe in the Studio</title>
+  <meta name="description" id="page-desc" content="Song lyrics by Joe in the Studio." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" id="page-canonical" href="https://www.joeinthestudio.com/lyrics/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" id="og-title" content="Lyrics — Joe in the Studio" />
+  <meta property="og:description" id="og-desc" content="Song lyrics by Joe in the Studio." />
+  <meta property="og:image" content="https://www.joeinthestudio.com/Assets/logo.jpg" />
+
+  <link rel="shortcut icon" type="image/png" href="../Assets/favicon.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="../Assets/favicon.png" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="../">Joe in the Studio</a>
+      <a class="btn btn-outline-light btn-sm ms-auto" href="../">← Back</a>
+    </div>
+  </nav>
+
+  <!-- Hub: list of all songs -->
+  <main id="lyrics-hub" class="container py-5">
+    <h1 class="section-title h3 mb-5">Lyrics</h1>
+    <div id="song-grid" class="row g-4"></div>
+  </main>
+
+  <!-- Single song view (hidden by default) -->
+  <main id="lyrics-view" class="container py-5 d-none">
+    <a href="." class="lyrics-back d-inline-block mb-4">← All songs</a>
+    <div id="song-content"></div>
+  </main>
+
+  <footer class="footer py-4">
+    <div class="container d-flex flex-wrap justify-content-between gap-2 small">
+      <span class="text-muted">© <span id="year"></span> Joe in the Studio</span>
+      <a href="../links/" class="link-muted">All links →</a>
+    </div>
+  </footer>
+
+  <script src="script.js" type="module"></script>
+</body>
+
+</html>
