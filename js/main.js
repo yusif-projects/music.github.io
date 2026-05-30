@@ -357,6 +357,14 @@ function updateSEOTags(data) {
       data.artist.channels.instagram_url
     ].filter(Boolean);
 
+    if (data.platforms && Array.isArray(data.platforms)) {
+      data.platforms.forEach(p => {
+        if (p?.url && !socialLinks.includes(p.url)) {
+          socialLinks.push(p.url);
+        }
+      });
+    }
+
     if (data.socials && Array.isArray(data.socials)) {
       data.socials.forEach(s => {
         if (s?.url && !socialLinks.includes(s.url)) {

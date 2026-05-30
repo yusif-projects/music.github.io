@@ -1,7 +1,6 @@
 import * as json from '../data/data.json' with { type: 'json' };
-import releasesJson from '../data/releases.json' with { type: 'json' };
 
-const data = { ...json.default, releases: releasesJson };
+const data = json.default;
 const list = document.getElementById('links-list');
 
 function addLabel(text) {
@@ -22,18 +21,11 @@ function addLink(name, url, icon) {
   list.appendChild(a);
 }
 
-// Music section — releases with streaming links
-const musicLinks = (data.releases || []).flatMap(r => {
-  const items = [];
-  if (r.spotify_url)     items.push({ name: `${r.title} on Spotify`,     url: r.spotify_url,     icon: 'bi-spotify'  });
-  if (r.apple_music_url) items.push({ name: `${r.title} on Apple Music`, url: r.apple_music_url, icon: 'bi-music-note-beamed' });
-  if (r.soundcloud_url)  items.push({ name: `${r.title} on SoundCloud`,  url: r.soundcloud_url,  icon: 'bi-soundwave' });
-  return items;
-});
-
-if (musicLinks.length) {
-  addLabel('Music');
-  musicLinks.forEach(l => addLink(l.name, l.url, l.icon));
+// Platforms section — artist pages on streaming services
+const platforms = data.platforms || [];
+if (platforms.length) {
+  addLabel('Listen On');
+  platforms.forEach(p => addLink(p.name, p.url, p.icon));
 }
 
 // Socials section
