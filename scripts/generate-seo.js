@@ -60,7 +60,7 @@ const musicGroupLd = {
     recordingOf: {
       '@type': 'MusicComposition',
       name: r.title,
-      lyricist: { '@type': 'Person', name: 'Yusif Aliyev' },
+      ...(r.songwriter && { lyricist: { '@type': 'Person', name: r.songwriter } }),
     },
   })),
 };

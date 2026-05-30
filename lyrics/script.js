@@ -27,7 +27,7 @@ function showHub() {
           <img src="../${r.cover}" class="card-img-top" alt="${r.title} cover" loading="lazy">
           <div class="card-body">
             <h5 class="card-title mb-1">${r.title}</h5>
-            <span class="lyrics-song-meta">${r.type} · ${r.year}</span>
+            <span class="lyrics-song-meta">${r.type} · ${r.year}${r.songwriter !== 'Yusif Aliyev' ? ' · Cover' : ''}</span>
           </div>
         </div>
       </a>`;
@@ -81,6 +81,7 @@ function showSong(id) {
           <div>
             <h1 class="h3 mb-0">${r.title}</h1>
             <p class="lyrics-song-meta mb-0">Joe in the Studio · ${r.year}</p>
+            <p class="lyrics-song-meta mb-0 mt-1" style="opacity:0.65;">Written by ${r.songwriter}</p>
           </div>
         </div>
         <div class="lyrics-text mb-5">${lyricsHtml}</div>
