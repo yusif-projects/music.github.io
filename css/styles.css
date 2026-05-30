@@ -198,6 +198,24 @@ h1, h2, h3, h4, h5, h6,
   background: var(--on-dark-03);
 }
 
+.influence-chip {
+  display: inline-block;
+  padding: .35rem .85rem;
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid rgba(255,140,66,.35);
+  text-decoration: none;
+  font-size: .9rem;
+  transition: background .2s, border-color .2s, color .2s;
+}
+
+.influence-chip:hover {
+  background: rgba(255,140,66,.15);
+  border-color: var(--acc);
+  color: var(--acc);
+}
+
 .avatar {
   width: 48px;
   height: 48px;

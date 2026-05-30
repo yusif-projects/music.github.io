@@ -4,9 +4,10 @@
 const fs   = require('fs');
 const path = require('path');
 
-const ROOT     = path.join(__dirname, '..');
-const BASE     = 'https://www.joeinthestudio.com';
-const releases = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/releases.json'), 'utf8'));
+const ROOT      = path.join(__dirname, '..');
+const BASE      = 'https://www.joeinthestudio.com';
+const releases  = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/releases.json'), 'utf8'));
+const siteData  = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/data.json'), 'utf8'));
 
 // Replace content between <!-- GEN:key:START --> and <!-- GEN:key:END -->
 function inject(file, key, content) {
@@ -46,6 +47,13 @@ const musicGroupLd = {
     'https://www.reddit.com/user/joe-in-the-studio/',
   ],
   member: { '@type': 'Person', name: 'Yusif Aliyev', sameAs: BASE + '/' },
+  ...(siteData.influences?.length && {
+    influencedBy: siteData.influences.map(inf => ({
+      '@type': 'MusicGroup',
+      name: inf.name,
+      ...(inf.url && { url: inf.url }),
+    })),
+  }),
   track: releases.map(r => ({
     '@type': 'MusicRecording',
     name: r.title,

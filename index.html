@@ -82,9 +82,9 @@
     <!-- Collapsible nav links -->
     <div class="collapse navbar-collapse" id="nav">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small">
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
         <li class="nav-item"><a class="nav-link" href="#discography">Discography</a></li>
         <li class="nav-item"><a class="nav-link" href="lyrics/">Lyrics</a></li>
-        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -112,6 +112,43 @@
   </header>
 
   <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section class="py-5" id="about">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title h3 mb-3">About</h2>
+          <p class="text-muted" id="bio">Loading…</p>
+          <ul class="list-unstyled small" id="highlights"></ul>
+        </div>
+        <div class="col-lg-6">
+          <div class="ratio ratio-16x9 ring">
+            <div id="aboutCarousel" class="carousel slide h-100" data-bs-ride="carousel" data-bs-interval="4000">
+              <div class="carousel-inner h-100"></div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+              <div class="carousel-indicators"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFLUENCES -->
+  <section class="py-5" id="influences">
+    <div class="container">
+      <h2 class="section-title h3 mb-4" id="influencesTitle"></h2>
+      <div class="d-flex flex-wrap gap-2" id="influencesGrid"></div>
+    </div>
+  </section>
 
   <!-- DISCOGRAPHY -->
   <section class="py-5" id="discography">
@@ -189,35 +226,6 @@
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section class="py-5" id="about">
-    <div class="container">
-      <div class="row g-4 align-items-center">
-        <div class="col-lg-6">
-          <h2 class="section-title h3 mb-3">About</h2>
-          <p class="text-muted" id="bio">Loading…</p>
-          <ul class="list-unstyled small" id="highlights"></ul>
-        </div>
-        <div class="col-lg-6">
-          <div class="ratio ratio-16x9 ring">
-            <div id="aboutCarousel" class="carousel slide h-100" data-bs-ride="carousel" data-bs-interval="4000">
-              <div class="carousel-inner h-100"></div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-              <div class="carousel-indicators"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- CONTACT -->
   <section class="py-5" id="contact">
     <div class="container">
@@ -283,6 +291,13 @@
       "name": "Yusif Aliyev",
       "sameAs": "https://www.joeinthestudio.com/"
     },
+    "influencedBy": [
+      {
+        "@type": "MusicGroup",
+        "name": "Artist Name",
+        "url": "https://open.spotify.com/"
+      }
+    ],
     "track": [
       {
         "@type": "MusicRecording",

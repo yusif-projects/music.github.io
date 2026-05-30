@@ -4,14 +4,8 @@
         "bio": "Joe in the Studio is the stage name of Yusif Aliyev, a multi-instrumentalist and songwriter crafting music that feels like it could've been pressed on vinyl in the late 60s but still speaks to today. Armed with guitars, piano, bass, and drums — plus a knack for raw storytelling — every note is written, recorded, and produced solo in his small home studio.",
         "bio_az": "Joe in the Studio — Yusif Əliyevin səhnə adıdır. O, çoxalətli musiqiçi və bəstəkardır; elə musiqilər yaradır ki, sanki 60-cı illərin sonunda vinilə yazılıb, amma bu gün də öz aktuallığını qoruyur. Gitara, piano, bas və zərblərlə yanaşı, səmimi hekayəçilik bacarığı ilə də seçilən Yusifin hər bir notu kiçik ev studiyasında təkbaşına yazılır, ifa olunur və prodüserliyi edilir.",
         "highlights": [
-            "Favorite Artists: The Beatles, Tame Impala, John Mayer",
-            "Favorite Guitar: Ibanez AF55",
-            "Favorite DAW: Logic Pro X"
         ],
         "highlights_az": [
-            "Sevimli İfaçılar: The Beatles, Tame Impala, John Mayer",
-            "Sevimli Gitara: Ibanez AF55",
-            "Sevimli DAW: Logic Pro X"
         ],
         "channels": {
             "youtube_channel_url": "https://www.youtube.com/@joeinthestudio",
@@ -73,6 +67,88 @@
         "35pCtgC6V-M",
         "1ykrzGI35ls"
     ],
+    "influences": [
+        {
+            "name": "The Beatles",
+            "url": "https://en.wikipedia.org/wiki/The_Beatles"
+        },
+        {
+            "name": "Tame Impala",
+            "url": "https://en.wikipedia.org/wiki/Tame_Impala"
+        },
+        {
+            "name": "John Mayer",
+            "url": "https://en.wikipedia.org/wiki/John_Mayer"
+        },
+        {
+            "name": "Michael Jackson",
+            "url": "https://en.wikipedia.org/wiki/Michael_Jackson"
+        },
+        {
+            "name": "Slash",
+            "url": "https://en.wikipedia.org/wiki/Slash_(musician)"
+        },
+        {
+            "name": "AC/DC",
+            "url": "https://en.wikipedia.org/wiki/AC_DC"
+        },
+        {
+            "name": "Paul McCartney",
+            "url": "https://en.wikipedia.org/wiki/Paul_McCartney"
+        },
+        {
+            "name": "Jimi Hendrix",
+            "url": "https://en.wikipedia.org/wiki/Jimi_Hendrix"
+        },
+        {
+            "name": "Stevie Ray Vaughan",
+            "url": "https://en.wikipedia.org/wiki/Stevie_Ray_Vaughan"
+        },
+        {
+            "name": "Green Day",
+            "url": "https://en.wikipedia.org/wiki/Green_Day"
+        },
+        {
+            "name": "Billy Joel",
+            "url": "https://en.wikipedia.org/wiki/Billy_Joel"
+        },
+        {
+            "name": "Charlie Puth",
+            "url": "https://en.wikipedia.org/wiki/Charlie_Puth"
+        },
+        {
+            "name": "Eminem",
+            "url": "https://en.wikipedia.org/wiki/Eminem"
+        },
+        {
+            "name": "Chuck Berry",
+            "url": "https://en.wikipedia.org/wiki/Chuck_Berry"
+        },
+        {
+            "name": "Red Hot Chili Peppers",
+            "url": "https://en.wikipedia.org/wiki/Red_Hot_Chili_Peppers"
+        },
+        {
+            "name": "Daft Punk",
+            "url": "https://en.wikipedia.org/wiki/Daft_Punk"
+        },
+        {
+            "name": "Stevie Wonder",
+            "url": "https://en.wikipedia.org/wiki/Stevie_Wonder"
+        },
+        {
+            "name": "Ed Sheeran",
+            "url": "https://en.wikipedia.org/wiki/Ed_Sheeran"
+        },
+        {
+            "name": "Bob Dylan",
+            "url": "https://en.wikipedia.org/wiki/Bob_Dylan"
+        },
+        {
+            "name": "The Police",
+            "url": "https://en.wikipedia.org/wiki/The_Police"
+        }
+    ],
     "instagram_posts": [
         "https://www.instagram.com/p/DLX9L4MqOz-/",
         "https://www.instagram.com/p/DOjVVDwClSe/",
@@ -107,7 +183,8 @@
             "btn_spotify": "Spotify",
             "btn_apple_music": "Apple Music",
 
-            "btn_lyrics": "Lyrics"
+            "btn_lyrics": "Lyrics",
+            "section_influences": "Inspirations & Influences"
         },
         "az": {
             "nav_discography": "Diskoqrafiya",

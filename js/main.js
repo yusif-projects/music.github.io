@@ -52,6 +52,7 @@ function setLang(lang, data, persist = true) {
   renderYouTubeRecent(data);
   renderInstagram(data);
   renderAboutCarousel(data);
+  renderInfluences(data);
   // Update SEO tags for language change
   updateSEOTags(data);
 }
@@ -409,6 +410,15 @@ function renderAboutCarousel(data) {
   indicators?.classList.toggle('d-none', single);
 }
 
+function renderInfluences(data) {
+  const grid = $('#influencesGrid');
+  if (!grid || !data.influences?.length) return;
+  setText($('#influencesTitle'), t('section_influences'));
+  grid.innerHTML = data.influences.map(inf =>
+    `<a class="influence-chip" href="${inf.url}" target="_blank" rel="noopener noreferrer">${inf.name}</a>`
+  ).join('');
+}
+
 // ====================== SEO OPTIMIZATION ======================
 function updateSEOTags(data) {
   if (!data?.artist) return;
@@ -557,6 +567,7 @@ function updateSEOTags(data) {
     renderYouTubeRecent(data);
     renderInstagram(data);
     renderAboutCarousel(data);
+    renderInfluences(data);
 
     // Subtle hero parallax
     const heroEl = document.querySelector('.hero');
