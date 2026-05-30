@@ -18,21 +18,22 @@ if (songId) {
 function showHub() {
   const grid = document.getElementById('song-grid');
 
-  (data.releases || []).forEach(r => {
-    const col = document.createElement('div');
-    col.className = 'col-sm-6 col-lg-4';
-    col.innerHTML = `
-      <a href="?song=${r.id}" class="lyrics-card-link">
-        <div class="card h-100">
-          <img src="../${r.cover}" class="card-img-top" alt="${r.title} cover" loading="lazy">
-          <div class="card-body">
-            <h5 class="card-title mb-1">${r.title}</h5>
-            <span class="lyrics-song-meta">${r.type} · ${r.year}${r.songwriter !== 'Yusif Aliyev' ? ' · Cover' : ''}</span>
-          </div>
+  (data.releases || [])
+    .filter(r => r.lyrics && r.lyrics.trim())
+    .sort((a, b) => a.title.localeCompare(b.title))
+    .forEach(r => {
+      const item = document.createElement('a');
+      item.href = `?song=${r.id}`;
+      item.className = 'lyrics-list-item';
+      item.innerHTML = `
+        <img src="../${r.cover}" class="lyrics-list-cover" alt="${r.title}" loading="lazy">
+        <div class="lyrics-list-info">
+          <span class="lyrics-list-title">${r.title}</span>
+          <span class="lyrics-song-meta">${r.type} · ${r.year}${r.songwriter !== 'Yusif Aliyev' ? ' · Cover' : ''}</span>
         </div>
-      </a>`;
-    grid.appendChild(col);
-  });
+        <i class="bi bi-chevron-right lyrics-list-chevron"></i>`;
+      grid.appendChild(item);
+    });
 }
 
 function showSong(id) {
@@ -58,11 +59,14 @@ function showSong(id) {
   const view = document.getElementById('lyrics-view');
   view.classList.remove('d-none');
 
-  const ytBtn = r.youtube_video_id
-    ? `<a href="https://www.youtube.com/watch?v=${r.youtube_video_id}" target="_blank" rel="noreferrer" class="btn btn-accent me-2 mb-2"><i class="bi bi-youtube me-1"></i>Watch on YouTube</a>`
+  const spotifyBtn = r.spotify_url
+    ? `<a href="${r.spotify_url}" target="_blank" rel="noreferrer" class="btn btn-sm lyrics-stream-btn lyrics-stream-spotify"><i class="bi bi-spotify me-1"></i>Spotify</a>`
     : '';
-  const scBtn = r.soundcloud_url
-    ? `<a href="${r.soundcloud_url}" target="_blank" rel="noreferrer" class="btn btn-outline-light mb-2"><i class="bi bi-soundwave me-1"></i>Listen on SoundCloud</a>`
+  const appleMusicBtn = r.apple_music_url
+    ? `<a href="${r.apple_music_url}" target="_blank" rel="noreferrer" class="btn btn-sm lyrics-stream-btn lyrics-stream-apple"><i class="bi bi-apple me-1"></i>Apple Music</a>`
+    : '';
+  const streamBtns = (spotifyBtn || appleMusicBtn)
+    ? `<div class="d-flex flex-wrap gap-2 mt-3">${spotifyBtn}${appleMusicBtn}</div>`
     : '';
 
   const lyricsHtml = (r.lyrics || 'Lyrics coming soon.')
@@ -76,16 +80,16 @@ function showSong(id) {
   document.getElementById('song-content').innerHTML = `
     <div class="row justify-content-center">
       <div class="col-lg-7 col-xl-6">
-        <div class="d-flex align-items-center gap-3 mb-5">
-          <img src="../${r.cover}" alt="${r.title}" style="width:72px; border-radius:8px; flex-shrink:0;">
+        <div class="lyrics-song-header d-flex align-items-start gap-3 mb-5">
+          <img src="../${r.cover}" alt="${r.title}" class="lyrics-song-cover">
           <div>
-            <h1 class="h3 mb-0">${r.title}</h1>
+            <h1 class="h3 mb-1">${r.title}</h1>
             <p class="lyrics-song-meta mb-0">Joe in the Studio · ${r.year}</p>
-            <p class="lyrics-song-meta mb-0 mt-1" style="opacity:0.65;">Written by ${r.songwriter}</p>
+            <p class="lyrics-song-meta" style="opacity:0.65;">Written by ${r.songwriter}</p>
+            ${streamBtns}
           </div>
         </div>
-        <div class="lyrics-text mb-5">${lyricsHtml}</div>
-        <div>${ytBtn}${scBtn}</div>
+        <div class="lyrics-text">${lyricsHtml}</div>
       </div>
     </div>`;
 }

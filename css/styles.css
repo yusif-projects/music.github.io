@@ -658,23 +658,56 @@ body::after {
 
 .lyrics-back:hover { color: var(--acc); }
 
-.lyrics-card-link {
+.lyrics-list-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem 0;
   text-decoration: none;
-  display: block;
-  transition: transform 0.2s;
+  border-bottom: 1px solid var(--on-dark-08);
+  transition: background 0.15s;
 }
 
-.lyrics-card-link:hover {
-  transform: translateY(-3px);
+.lyrics-list-item:first-child {
+  border-top: 1px solid var(--on-dark-08);
 }
 
-.lyrics-card-link .card {
-  border-color: var(--on-dark-08);
-  transition: border-color 0.2s;
+.lyrics-list-item:hover {
+  background: var(--on-dark-05, rgba(255,255,255,0.04));
+  margin: 0 -0.75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
-.lyrics-card-link:hover .card {
-  border-color: var(--acc-35);
+.lyrics-list-cover {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.lyrics-list-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.lyrics-list-title {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lyrics-list-chevron {
+  color: var(--muted);
+  font-size: 0.8rem;
+  flex-shrink: 0;
 }
 
 .lyrics-text {
@@ -688,4 +721,43 @@ body::after {
 .lyrics-song-meta {
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+.lyrics-song-cover {
+  width: 88px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+.lyrics-stream-btn {
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+  border-radius: 999px;
+  padding: 0.35rem 0.95rem;
+  text-decoration: none;
+  transition: filter 0.18s, transform 0.15s;
+}
+
+.lyrics-stream-btn:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.lyrics-stream-spotify {
+  background: #1DB954;
+  color: #000;
+  border: none;
+}
+
+.lyrics-stream-apple {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--on-dark-35);
+}
+
+.lyrics-stream-apple:hover {
+  background: var(--on-dark-10);
+  color: var(--text);
 }
