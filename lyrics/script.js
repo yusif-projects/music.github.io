@@ -60,13 +60,13 @@ function showSong(id) {
   view.classList.remove('d-none');
 
   const spotifyBtn = r.spotify_url
-    ? `<a href="${r.spotify_url}" target="_blank" rel="noreferrer" class="btn btn-sm lyrics-stream-btn lyrics-stream-spotify"><i class="bi bi-spotify me-1"></i>Spotify</a>`
+    ? `<a href="${r.spotify_url}" target="_blank" rel="noreferrer" class="btn btn-sm stream-btn stream-btn-spotify"><i class="bi bi-spotify me-1"></i>Spotify</a>`
     : '';
   const appleMusicBtn = r.apple_music_url
-    ? `<a href="${r.apple_music_url}" target="_blank" rel="noreferrer" class="btn btn-sm lyrics-stream-btn lyrics-stream-apple"><i class="bi bi-apple me-1"></i>Apple Music</a>`
+    ? `<a href="${r.apple_music_url}" target="_blank" rel="noreferrer" class="btn btn-sm stream-btn stream-btn-apple"><i class="bi bi-apple me-1"></i>Apple Music</a>`
     : '';
   const youtubeMusicBtn = r.youtube_music_url
-    ? `<a href="${r.youtube_music_url}" target="_blank" rel="noreferrer" class="btn btn-sm lyrics-stream-btn lyrics-stream-youtube"><i class="bi bi-youtube me-1"></i>YouTube Music</a>`
+    ? `<a href="${r.youtube_music_url}" target="_blank" rel="noreferrer" class="btn btn-sm stream-btn stream-btn-youtube"><i class="bi bi-youtube me-1"></i>YouTube Music</a>`
     : '';
   const streamBtns = (spotifyBtn || appleMusicBtn || youtubeMusicBtn)
     ? `<div class="d-flex flex-wrap gap-2 mt-3">${spotifyBtn}${appleMusicBtn}${youtubeMusicBtn}</div>`

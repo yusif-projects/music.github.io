@@ -138,13 +138,13 @@ function renderReleases(data) {
   wrap.innerHTML = '';
   data.releases.forEach(r => {
     const spotifyBtn = r.spotify_url
-      ? `<a class="btn btn-accent btn-sm" href="${r.spotify_url}" target="_blank" rel="noreferrer"><i class="bi bi-spotify me-1"></i>Spotify</a>`
+      ? `<a class="btn btn-sm stream-btn stream-btn-spotify" href="${r.spotify_url}" target="_blank" rel="noreferrer"><i class="bi bi-spotify me-1"></i>Spotify</a>`
       : '';
     const appleMusicBtn = r.apple_music_url
-      ? `<a class="btn btn-outline-light btn-sm" href="${r.apple_music_url}" target="_blank" rel="noreferrer"><i class="bi bi-music-note me-1"></i>Apple Music</a>`
+      ? `<a class="btn btn-sm stream-btn stream-btn-apple" href="${r.apple_music_url}" target="_blank" rel="noreferrer"><i class="bi bi-apple me-1"></i>Apple Music</a>`
       : '';
     const youtubeMusicBtn = r.youtube_music_url
-      ? `<a class="btn btn-outline-light btn-sm" href="${r.youtube_music_url}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>YouTube Music</a>`
+      ? `<a class="btn btn-sm stream-btn stream-btn-youtube" href="${r.youtube_music_url}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>YouTube Music</a>`
       : '';
 
     const lyricsBtn = r.lyrics
