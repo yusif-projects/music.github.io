@@ -40,11 +40,8 @@ const musicGroupLd = {
   foundingLocation: { '@type': 'Place', name: 'Baku, Azerbaijan' },
   genre: ['Indie Rock', 'Singer-Songwriter', 'Indie Pop'],
   sameAs: [
-    'https://www.youtube.com/@joeinthestudio',
-    'https://www.instagram.com/joeinthestudio/',
-    'https://x.com/joeinthestudio',
-    'https://www.twitch.tv/joeinthestudio',
-    'https://www.reddit.com/user/joe-in-the-studio/',
+    ...(siteData.platforms || []).map(p => p.url).filter(Boolean),
+    ...(siteData.socials || []).map(s => s.url).filter(Boolean),
   ],
   member: { '@type': 'Person', name: 'Yusif Aliyev', sameAs: BASE + '/' },
   ...(siteData.influences?.length && {
