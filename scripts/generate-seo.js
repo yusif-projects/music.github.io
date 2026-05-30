@@ -80,8 +80,9 @@ inject(
 
 const homeItems = releases.map(r => {
   const links = [];
-  if (r.spotify_url)     links.push(`<a href="${r.spotify_url}">Spotify</a>`);
-  if (r.apple_music_url) links.push(`<a href="${r.apple_music_url}">Apple Music</a>`);
+  if (r.spotify_url)       links.push(`<a href="${r.spotify_url}">Spotify</a>`);
+  if (r.apple_music_url)   links.push(`<a href="${r.apple_music_url}">Apple Music</a>`);
+  if (r.youtube_music_url) links.push(`<a href="${r.youtube_music_url}">YouTube Music</a>`);
   const suffix = links.length ? ' — ' + links.join(' | ') : '';
   return `            <li><strong>${r.title}</strong> (${r.year}, ${r.type})${suffix}</li>`;
 }).join('\n');

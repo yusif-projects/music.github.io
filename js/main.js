@@ -143,6 +143,9 @@ function renderReleases(data) {
     const appleMusicBtn = r.apple_music_url
       ? `<a class="btn btn-outline-light btn-sm" href="${r.apple_music_url}" target="_blank" rel="noreferrer"><i class="bi bi-music-note me-1"></i>Apple Music</a>`
       : '';
+    const youtubeMusicBtn = r.youtube_music_url
+      ? `<a class="btn btn-outline-light btn-sm" href="${r.youtube_music_url}" target="_blank" rel="noreferrer"><i class="bi bi-youtube me-1"></i>YouTube Music</a>`
+      : '';
 
     const lyricsBtn = r.lyrics
       ? `<a class="btn btn-outline-light btn-sm" href="lyrics/?song=${r.id}"><i class="bi bi-music-note-list me-1"></i>Lyrics</a>`
@@ -169,6 +172,7 @@ function renderReleases(data) {
           <div class="mt-auto d-flex flex-wrap gap-2">
             ${spotifyBtn}
             ${appleMusicBtn}
+            ${youtubeMusicBtn}
             ${lyricsBtn}
           </div>
         </div>
