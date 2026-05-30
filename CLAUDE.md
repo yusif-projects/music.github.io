@@ -16,7 +16,7 @@ Official website for **Joe in the Studio**, the artist stage name of Yusif Aliye
 index.html          — Home page
 css/styles.css      — All custom styles
 js/main.js          — Main JS (ESM module, type="module")
-data/data.json      — Artist info, i18n strings, social links, YouTube IDs, Instagram posts
+data/data.json      — Artist info, social links, YouTube IDs, Instagram posts
 data/releases.json  — Discography: title, year, type, cover, streaming URLs, lyrics
 lyrics/index.html   — Lyrics hub + single song view
 lyrics/script.js    — Lyrics page JS
@@ -46,14 +46,7 @@ Edit `youtube_videos` array in `data/data.json` (YouTube video IDs, not full URL
 Edit `instagram_posts` array in `data/data.json` (full Instagram post URLs).
 
 ### Add/change artist info, bio, highlights, social links
-Edit `data/data.json` — `artist`, `contacts`, `socials` objects. Both `bio` and `bio_az` exist for bilingual support.
-
-## i18n (bilingual EN/AZ)
-
-- Language is stored in `localStorage` and settable via `?lang=en` or `?lang=az` URL params.
-- All UI strings are in `data.json` under `i18n.en` and `i18n.az`. Add new strings to both.
-- The `t(key)` helper in `main.js` resolves to EN as fallback.
-- Azerbaijani content fields use `_az` suffix: `bio_az`, `highlights_az`, `contacts_az`.
+Edit `data/data.json` — `artist`, `contacts`, `socials` objects.
 
 ## SEO system
 
@@ -69,7 +62,7 @@ HTML files contain marker comments that `generate-seo.js` rewrites:
 ## JS patterns
 
 - `js/main.js` uses ESM imports from JSON files: `import * as json from '../data/data.json' with {type: 'json'}`
-- All rendering is done at boot in an IIFE; language switch calls `setLang()` which re-renders everything.
+- All rendering is done at boot in an IIFE.
 - Custom carousel: `.carousel-shell > .carousel-window > .carousel-track` with prev/next buttons. Set up via `setupCarousel(trackId)`.
 - No framework, no TypeScript. Plain DOM manipulation with `$()` / `el()` helpers.
 
